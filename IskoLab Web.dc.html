@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Manrope:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="./iskolab-data.js"></script>
+<style>
+html, body { margin: 0; padding: 0; background: #0B1C34; }
+input:focus, textarea:focus { outline: none; border-color: #123FA8 !important; }
+button { -webkit-tap-highlight-color: transparent; }
+::selection { background: #123FA8; color: #fff; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: rgba(14,23,90,0.18); border-radius: 999px; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes genPulse { 0%,100% { opacity: 0.35; } 50% { opacity: 1; } }
+@keyframes slideBar { 0% { transform: translateX(-110%); } 100% { transform: translateX(320%); } }
+@keyframes ovpulse { 0%,100% { box-shadow: 0 0 0 0 rgba(47,107,224,0.4); } 50% { box-shadow: 0 0 0 7px rgba(47,107,224,0); } }
+.cog-brain-canvas { display: block; }
+.wv-act { border-radius: 10px !important; border: none !important; background: transparent !important; transition: background .22s ease, transform .2s ease, color .2s ease; }
+.wv-act:hover { background: rgba(18,63,168,0.1) !important; transform: translateY(-1px); }
+.wv-act-t { border: none !important; background: transparent !important; border-radius: 8px !important; transition: background .22s ease, color .2s ease; }
+.wv-act-t:hover { background: rgba(126,156,255,0.16) !important; color: #EAF0FF !important; }
+.wv-act-d { background: transparent !important; transition: background .22s ease, border-color .22s ease, transform .2s ease; }
+.wv-act-d:hover { background: rgba(126,156,255,0.16) !important; border-color: rgba(126,156,255,0.55) !important; transform: translateY(-1px); }
+.cog-region-row { transition: transform 300ms cubic-bezier(.16,1,.3,1), background 300ms, border-color 300ms; }
+.cog-particle-field:hover .cog-region-row { border-top-color: rgba(126,156,255,0.3) !important; }
+.cog-region-row:hover { border-top-color: rgba(126,156,255,0.5) !important; }
+.wv-card { transition: transform 480ms cubic-bezier(.16,1,.3,1), box-shadow 480ms cubic-bezier(.16,1,.3,1), border-color 480ms; position: relative; }
+.wv-card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 480ms; background: radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(47,107,224,0.14), transparent 62%); z-index: 0; }
+.wv-card > * { position: relative; z-index: 1; }
+.wv-card.is-hovering { transform: translateY(-4px); box-shadow: 0 28px 56px -24px rgba(10,45,96,0.45) !important; border-color: rgba(18,63,168,0.3) !important; }
+.wv-card.is-hovering::before { opacity: 1; }
+.wv-nav:hover { color: #E7EEF7 !important; background: rgba(255,255,255,0.05) !important; }
+.wv-btn { transition: transform 260ms cubic-bezier(.16,1,.3,1), box-shadow 300ms, filter 260ms; }
+.wv-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+@media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</helmet>
+<div style="min-height: 100vh; display: grid; grid-template-columns: 248px 1fr; font-family: Manrope, system-ui, sans-serif; color: #0E2647; background: #0B1C34;">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside style="position: sticky; top: 0; height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; padding: 24px 18px; background: linear-gradient(180deg, rgb(14, 23, 90), #070C2E); border-right: 1px solid rgba(255,255,255,0.06);">
+    <div style="display: flex; align-items: center; gap: 11px; padding: 3px 8px 26px;">
+      <span style="width: 34px; height: 34px; border-radius: 12px; background: rgba(255,255,255,0.94); display: inline-flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 0.5px rgba(14,23,90,0.08), 0 14px 30px -24px rgba(255,255,255,0.46);"><svg width="24" height="24" viewBox="0 0 40 40" fill="none" style="display:block;"><path d="M11 25 L17 25 L12 34 L6 34 Z" fill="#7E9CFF"></path><path d="M20 17 L26 17 L21 34 L15 34 Z" fill="#F3E5B8"></path><path d="M29 6 L35 6 L30 34 L24 34 Z" fill="rgb(14, 23, 90)"></path></svg></span>
+      <span style="font-family: Manrope; font-weight: 800; font-size: 16px; letter-spacing: -0.04em; color: #F9F1D2;">IskoLab</span>
+    </div>
+
+    <button onClick="{{ goMaterial }}" class="wv-btn" style="display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; padding: 10px 13px; border-radius: 0; border: none; border-bottom: 1.5px solid rgba(126,156,255,0.75); background: transparent; color: #EAF0FF; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer; margin-bottom: 22px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Add material
+    </button>
+
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #59718F; padding: 0 10px 10px;">Menu</div>
+    <nav style="display: flex; flex-direction: column; gap: 4px;">
+      <button onClick="{{ goToday }}" class="wv-nav" style="{{ navTodayStyle }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><span>Today</span>
+      </button>
+      <button onClick="{{ goExams }}" class="wv-nav" style="{{ navExamsStyle }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg><span>Exam Plan</span>
+      </button>
+      <button onClick="{{ goLibrary }}" class="wv-nav" style="{{ navLibraryStyle }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><span>Review</span>
+      </button>
+      <button onClick="{{ goProfile }}" class="wv-nav" style="{{ navProfileStyle }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Profile</span>
+      </button>
+    </nav>
+
+    <div style="flex: 1;"></div>
+
+    <div style="background: rgba(255,255,255,0.04); border: 0.5px solid rgba(243,229,184,0.14); border-radius: 14px; padding: 14px;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.8px; letter-spacing: 0.14em; text-transform: uppercase; color: #7FA0C4;">Next exam</div>
+      <div style="font-size: 12px; font-weight: 600; color: #E7EEF7; margin-top: 6px; line-height: 1.35;">PI 100 &middot; Midterm</div>
+      <div style="display: flex; align-items: baseline; gap: 6px; margin-top: 8px;"><span style="font-family: 'Newsreader', serif; font-size: 22px; color: #fff;">{{ daysLeft }}</span><span style="font-size: 10.5px; color: rgba(249,241,210,0.56);">days &middot; Wed Jul 9</span></div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px; margin-top: 16px; padding: 4px 6px;">
+      <span style="width: 32px; height: 32px; border-radius: 999px; background: linear-gradient(135deg, rgb(14, 23, 90), rgba(14,23,90,0.88)); color: #EAF0FF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px;">{{ avatarInitial }}</span>
+      <div style="min-width: 0;"><div style="font-size: 11.5px; font-weight: 600; color: #E7EEF7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ profileName }}</div><div style="font-size: 9.8px; color: #7A8CA6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ profileCourse }}</div></div>
+    </div>
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <main style="min-height: 100vh; background: radial-gradient(60% 40% at 82% 0%, rgba(10,86,168,0.09), transparent 60%), radial-gradient(50% 40% at 8% 100%, rgba(47,107,224,0.07), transparent 64%), #F6F8FC; display: flex; flex-direction: column;">
+    <!-- topbar -->
+    <div style="position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px clamp(24px, 3vw, 48px); background: linear-gradient(180deg, rgba(246,248,252,0.92), rgba(246,248,252,0.35)); backdrop-filter: blur(10px); border-bottom: 0.5px solid rgba(14,23,90,0.05);">
+      <div style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+        <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ goBack }}" aria-label="Go back" title="Back to {{ backLabel }}" style="width: 34px; height: 34px; border-radius: 999px; border: 0.5px solid rgba(14,23,90,0.08); background: rgba(255,255,255,0.62); color: rgb(14, 23, 90); display: inline-flex; align-items: center; justify-content: center; font-size: 19px; line-height: 1; font-family: inherit; cursor: pointer; box-shadow: 0 12px 28px -22px rgba(14,23,90,0.42);">&lsaquo;</button>
+        </sc-if>
+        <div style="min-width: 0;">
+          <h1 style="font-family: 'Newsreader', serif; font-weight: 400; font-size: 22px; letter-spacing: -0.01em; margin: 0; color: #0E2647;">{{ pageTitle }}</h1>
+          <div style="font-size: 11.5px; color: #667497; margin-top: 2px;">{{ pageSub }}</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(14,23,90,0.58);">
+        <span style="width: 18px; height: 0.5px; background: rgba(14,23,90,0.18); display: block;"></span>
+        <span><span style="color: rgb(14, 23, 90); font-weight: 600;">{{ daysLeft }}</span> days to midterm</span>
+      </div>
+    </div>
+
+    <div style="flex: 1; padding: clamp(32px, 4vw, 56px); overflow-x: hidden;">
+
+      <!-- ═══ TODAY ═══ -->
+      <sc-if value="{{ isToday }}" hint-placeholder-val="{{ true }}">
+        <div data-screen-label="Web Today" style="animation: fadeUp 0.4s ease; max-width: 1180px;">
+          <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: start;">
+            <!-- left column -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <!-- countdown hero -->
+              <div class="wv-card" style="border-radius: 22px; overflow: hidden; border: 0.5px solid rgba(14,23,90,0.08); background: linear-gradient(150deg, rgb(14, 23, 90), rgba(14,23,90,0.92)); color: #F6F8FC; box-shadow: 0 30px 64px -30px rgba(10,45,96,0.5);">
+                <div style="padding: 28px 30px; position: relative;">
+                  <div style="position: absolute; inset: 0; background: radial-gradient(50% 90% at 90% 20%, rgba(47,107,224,0.35), transparent 60%); pointer-events: none;"></div>
+                  <div style="position: relative; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;">
+                    <div>
+                      <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #F3E5B8;"><span style="width: 14px; height: 1px; background: #2F6BE0; display: block;"></span>Midterm exam &middot; PI 100</div>
+                      <div style="font-family: 'Newsreader', serif; font-size: 25px; margin-top: 12px; line-height: 1.1;">Life and Works of Rizal</div>
+                      <div style="font-size: 12px; color: rgba(249,241,210,0.62); margin-top: 6px;">Exam day &middot; Wednesday, July 9</div>
+                    </div>
+                    <div style="text-align: right; flex-shrink: 0;">
+                      <div style="font-family: 'Newsreader', serif; font-size: 52px; line-height: 0.9; color: #fff;">{{ daysLeft }}</div>
+                      <div style="font-size: 10.5px; color: rgba(249,241,210,0.56); margin-top: 4px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em;">DAYS LEFT</div>
+                    </div>
+                  </div>
+                  <div style="position: relative; margin-top: 22px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: rgba(249,241,210,0.56); margin-bottom: 7px;"><span>Day 2 of 7</span><span>{{ planPct }}% through your plan</span></div>
+                    <div style="height: 3px; background: rgba(243,229,184,0.16); border-radius: 999px; overflow: hidden;"><div style="height: 100%; width: {{ planPctW }}; background: linear-gradient(90deg, #7E9CFF, #F3E5B8); border-radius: 999px;"></div></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- today's topic -->
+              <div class="wv-card" style="border-radius: 20px; padding: 26px 28px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.8); box-shadow: 0 16px 40px -26px rgba(10,45,96,0.32);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #123FA8;"><span style="width: 14px; height: 1px; background: #2F6BE0; display: block;"></span>Today&rsquo;s topic</div>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #9AA6BC;">DAY 2 OF 7</span>
+                </div>
+                <div style="font-family: 'Newsreader', serif; font-size: 25px; letter-spacing: -0.01em; line-height: 1.15; margin-top: 12px; color: #0E2647;">{{ todayTopic }}</div>
+                <div style="font-size: 12.5px; color: #667497; margin-top: 8px;">Study pack ready &mdash; explanation, reviewer, flashcards, and quiz, generated from your module.</div>
+                <div style="display: flex; gap: 10px; margin-top: 22px;">
+                  <button onClick="{{ goPack }}" class="wv-btn wv-act" style="padding: 9px 14px; border-radius: 10px; border: none; background: transparent; color: #123FA8; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Open study pack</button>
+                  <button onClick="{{ startFlash }}" class="wv-btn wv-act" style="padding: 9px 14px; border-radius: 10px; border: none; background: transparent; color: #47536A; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Flashcards</button>
+                  <button onClick="{{ startQuiz }}" class="wv-btn wv-act" style="padding: 9px 14px; border-radius: 10px; border: none; background: transparent; color: #47536A; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Take quiz</button>
+                </div>
+              </div>
+
+              <!-- up next -->
+              <div style="border-radius: 20px; padding: 8px 6px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.7);">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #667497; padding: 12px 18px 6px;"><span style="width: 14px; height: 1px; background: #9AA6BC; display: block;"></span>Up next</div>
+                <sc-for list="{{ upNext }}" as="t" hint-placeholder-count="2">
+                  <div style="padding: 13px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 0.5px solid rgba(14,23,90,0.045);">
+                    <div style="font-size: 12.5px; color: #33415A;">{{ t.title }}</div>
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.8px; color: #9AA6BC;">{{ t.dayShort }}</div>
+                  </div>
+                </sc-for>
+                <button onClick="{{ goExams }}" style="width: 100%; text-align: left; padding: 10px 16px; border: none; border-top: 0.5px solid rgba(14,23,90,0.045); background: transparent; color: #123FA8; font-size: 11.5px; font-weight: 600; font-family: inherit; cursor: pointer;">View full exam plan &rarr;</button>
+              </div>
+            </div>
+
+            <!-- right column -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <!-- progress ring -->
+              <div class="wv-card" style="border-radius: 20px; padding: 24px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.8); text-align: center; box-shadow: 0 16px 40px -26px rgba(10,45,96,0.3);">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #123FA8;"><span style="width: 14px; height: 1px; background: #2F6BE0; display: block;"></span>Prep progress</div>
+                <div style="position: relative; width: 150px; height: 150px; margin: 18px auto 6px;">
+                  <svg width="150" height="150" viewBox="0 0 150 150" style="transform: rotate(-90deg);">
+                    <circle cx="75" cy="75" r="62" fill="none" stroke="rgba(14,23,90,0.09)" stroke-width="12"></circle>
+                    <circle cx="75" cy="75" r="62" fill="none" stroke="url(#ringgrad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="{{ ringDash }}"></circle>
+                    <defs><linearGradient id="ringgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2F6BE0"></stop><stop offset="1" stop-color="#123FA8"></stop></linearGradient></defs>
+                  </svg>
+                  <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-family: 'Newsreader', serif; font-size: 32px; color: #0E2647; line-height: 1;">{{ planPct }}%</span><span style="font-size: 9.8px; color: #667497; margin-top: 2px;">of plan done</span></div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;">
+                  <div style="background: rgba(10,86,168,0.05); border-radius: 12px; padding: 12px;"><div style="font-family: 'Newsreader', serif; font-size: 20px; color: #123FA8;">{{ fcTotal }}</div><div style="font-size: 10.5px; color: #667497; margin-top: 2px;">Flashcards</div></div>
+                  <div style="background: rgba(196,74,52,0.07); border-radius: 12px; padding: 12px;"><div style="font-family: 'Newsreader', serif; font-size: 20px; color: #B4472F;">{{ weakCount }}</div><div style="font-size: 10.5px; color: #667497; margin-top: 2px;">Weak items</div></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ═══ EXAM PLAN ═══ -->
+      <sc-if value="{{ isExams }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Web Exam Plan" style="animation: fadeUp 0.4s ease; max-width: 980px;">
+          <div class="wv-card" style="border-radius: 20px; overflow: hidden; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.82); box-shadow: 0 16px 40px -28px rgba(10,45,96,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 22px 26px; background: linear-gradient(150deg, rgb(14, 23, 90), rgba(14,23,90,0.92)); color: #F6F8FC;">
+              <div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; color: #F3E5B8;">MIDTERM &middot; WED JUL 9</div><div style="font-family: 'Newsreader', serif; font-size: 20px; margin-top: 5px;">PI 100 &mdash; Life and Works of Rizal</div></div>
+              <div style="text-align: right;"><span style="font-family: 'Newsreader', serif; font-size: 34px; color: #fff;">{{ daysLeft }}</span><div style="font-size: 9.8px; color: rgba(249,241,210,0.56);">days left</div></div>
+            </div>
+            <sc-for list="{{ topics }}" as="t" hint-placeholder-count="7">
+              <div style="padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; gap: 16px; border-top: 0.5px solid rgba(14,23,90,0.045);">
+                <div style="display: flex; align-items: center; gap: 16px; min-width: 0;">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9AA6BC; width: 46px; flex-shrink: 0;">{{ t.dayShort }}</span>
+                  <span style="font-size: 13px; color: #0E2647;">{{ t.title }}</span>
+                </div>
+                <span style="{{ t.chipStyle }}">{{ t.chipLabel }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <p style="font-size: 11.5px; color: #667497; margin-top: 14px; line-height: 1.6;">IskoLab spreads your topics across the days before the exam. Open Today to study the current topic.</p>
+        </div>
+      </sc-if>
+
+      <!-- ═══ ADD MATERIAL ═══ -->
+      <sc-if value="{{ isMaterial }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Web Add Material" style="animation: fadeUp 0.4s ease; max-width: 780px;">
+          <div class="wv-card" style="border-radius: 20px; padding: 30px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.82); box-shadow: 0 16px 40px -28px rgba(10,45,96,0.3);">
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #123FA8;"><span style="width: 14px; height: 1px; background: #2F6BE0; display: block;"></span>Today&rsquo;s topic</div>
+            <div style="font-family: 'Newsreader', serif; font-size: 22px; margin: 8px 0 20px; color: #0E2647;">{{ todayTopic }}</div>
+            <textarea value="{{ pasteText }}" onChange="{{ setPasteText }}" rows="9" placeholder="Paste your notes, module text, or lecture handout here..." style="width: 100%; box-sizing: border-box; padding: 16px; border: 0.5px solid rgba(14,23,90,0.085); border-radius: 14px; background: rgba(255,255,255,0.9); font-size: 12.5px; color: #0E2647; font-family: inherit; line-height: 1.6; resize: vertical;"></textarea>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+              <button onClick="{{ fillSample }}" style="border: none; background: transparent; color: #123FA8; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer;">Use sample module text</button>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9AA6BC;">{{ pasteCount }} / 12,000</div>
+            </div>
+            <div style="margin-top: 22px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 500; letter-spacing: 0.12em; color: #667497; text-transform: uppercase;">Language</div>
+              <div style="display: flex; gap: 4px; background: #EDF0F8; border-radius: 999px; padding: 4px;">
+                <button onClick="{{ setLangEnglish }}" style="{{ segEnglishStyle }}">English</button>
+                <button onClick="{{ setLangTaglish }}" style="{{ segTaglishStyle }}">Taglish</button>
+                <button onClick="{{ setLangFilipino }}" style="{{ segFilipinoStyle }}">Filipino</button>
+              </div>
+            </div>
+            <button onClick="{{ startGeneration }}" disabled="{{ cantGenerate }}" style="{{ genBtnStyle }}">Generate study pack</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ═══ STUDY PACK ═══ -->
+      <sc-if value="{{ isPack }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Web Study Pack" style="animation: fadeUp 0.4s ease; max-width: 1180px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 20px; flex-wrap: wrap;">
+            <div>
+              <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #123FA8;"><span style="width: 14px; height: 1px; background: #2F6BE0; display: block;"></span>Study pack &middot; saved to review</div>
+              <div style="font-family: 'Newsreader', serif; font-size: 25px; margin-top: 8px; color: #0E2647; line-height: 1.15;">{{ pack.topic }}</div>
+              <div style="font-size: 11.5px; color: #9AA6BC; margin-top: 4px;">{{ pack.source }}</div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button onClick="{{ startFlash }}" class="wv-btn wv-act" style="padding: 9px 14px; border-radius: 10px; border: none; background: transparent; color: #47536A; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Flashcards — {{ fcTotal }} cards</button>
+              <button onClick="{{ startQuiz }}" class="wv-btn wv-act" style="padding: 9px 14px; border-radius: 10px; border: none; background: transparent; color: #47536A; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Mixed quiz — {{ qTotal }} items</button>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; align-items: start;">
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <div class="wv-card" style="border-radius: 20px; padding: 28px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.82);">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; color: #123FA8; margin-bottom: 14px;"><span style="width: 14px; height: 1px; background: #2F6BE0; display: block;"></span>Simple explanation &middot; Taglish</div>
+                <sc-for list="{{ packExplanation }}" as="para" hint-placeholder-count="3">
+                  <p style="font-size: 13px; line-height: 1.72; color: #33415A; margin: 0 0 14px;">{{ para }}</p>
+                </sc-for>
+              </div>
+              <div class="wv-card" style="border-radius: 20px; padding: 28px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.82);">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; color: #123FA8; margin-bottom: 4px;"><span style="width: 14px; height: 1px; background: #2F6BE0; display: block;"></span>Reviewer outline</div>
+                <sc-for list="{{ packReviewer }}" as="sec" hint-placeholder-count="3">
+                  <div style="margin-top: 16px;">
+                    <div style="font-size: 13px; font-weight: 700; color: #0E2647;">{{ sec.heading }}</div>
+                    <sc-for list="{{ sec.points }}" as="pt" hint-placeholder-count="3">
+                      <div style="display: flex; gap: 10px; margin-top: 8px;"><span style="color: #2F6BE0;">&ndash;</span><span style="font-size: 12.5px; line-height: 1.6; color: #47536A;">{{ pt }}</span></div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <div class="wv-card" style="border-radius: 20px; padding: 26px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.82);">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; color: #123FA8; margin-bottom: 6px;"><span style="width: 14px; height: 1px; background: #2F6BE0; display: block;"></span>Key terms</div>
+                <sc-for list="{{ packKeyTerms }}" as="kt" hint-placeholder-count="4">
+                  <div style="padding: 12px 0; border-bottom: 0.5px solid rgba(14,23,90,0.045);"><div style="font-size: 12.5px; font-weight: 700; color: #0E2647;">{{ kt.term }}</div><div style="font-size: 12px; color: #47536A; margin-top: 3px; line-height: 1.5;">{{ kt.def }}</div></div>
+                </sc-for>
+              </div>
+              <div style="border-radius: 16px; padding: 16px 18px; background: rgba(18,63,168,0.05); border: 1px solid rgba(18,63,168,0.18); font-size: 11.5px; color: #3B4A63; line-height: 1.55;"><span style="font-weight: 700;">Note:</span> {{ pack.uncertainty }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ═══ FLASHCARDS ═══ -->
+      <sc-if value="{{ isFlash }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Web Flashcards" style="animation: fadeUp 0.4s ease; max-width: 640px; margin: 0 auto;">
+          <sc-if value="{{ fcActive }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <button onClick="{{ goPack }}" style="border: none; background: transparent; color: #667497; font-size: 12px; font-weight: 500; font-family: inherit; cursor: pointer;">&larr; Back to study pack</button>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #667497;">{{ fcNum }} / {{ fcTotal }}</div>
+            </div>
+            <div style="height: 2px; background: rgba(14,23,90,0.055); border-radius: 2px; margin-top: 12px; overflow: hidden;"><div style="height: 100%; background: linear-gradient(90deg, #7E9CFF, #F3E5B8); border-radius: 2px; transition: width 0.3s ease; width: {{ fcProgress }};"></div></div>
+            <sc-if value="{{ fcFront }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ reveal }}" class="wv-btn" style="width: 100%; min-height: 320px; margin-top: 24px; background: rgba(255,255,255,0.85); border: 0.5px solid rgba(14,23,90,0.07); border-radius: 22px; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 22px; font-family: inherit; cursor: pointer; text-align: center; box-shadow: 0 20px 50px -30px rgba(10,45,96,0.4);">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; color: #9AA6BC;">QUESTION</div>
+                <div style="font-family: 'Newsreader', serif; font-size: 22px; line-height: 1.4; color: #0E2647;">{{ card.front }}</div>
+                <div style="font-size: 12px; color: #123FA8; font-weight: 600;">Click to reveal answer</div>
+              </button>
+            </sc-if>
+            <sc-if value="{{ fcRevealed }}" hint-placeholder-val="{{ false }}">
+              <div style="min-height: 320px; margin-top: 24px; box-sizing: border-box; background: linear-gradient(150deg, rgb(14, 23, 90), rgba(14,23,90,0.92)); border-radius: 22px; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 18px; text-align: center; box-shadow: 0 26px 56px -30px rgba(10,45,96,0.5);">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; color: #F3E5B8;">ANSWER</div>
+                <div style="font-size: 12.5px; color: rgba(249,241,210,0.56); line-height: 1.4;">{{ card.front }}</div>
+                <div style="font-family: 'Newsreader', serif; font-size: 20px; line-height: 1.5; color: #F6F8FC;">{{ card.back }}</div>
+              </div>
+              <div style="display: flex; gap: 12px; margin-top: 18px;">
+                <button onClick="{{ markMissed }}" class="wv-btn" style="flex: 1; padding: 11px 14px; border-radius: 0; border: none; border-bottom: 1px solid rgba(18,63,168,0.28); background: transparent; color: #47536A; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Hindi ko alam</button>
+                <button onClick="{{ markKnew }}" class="wv-btn" style="flex: 1; padding: 11px 14px; border-radius: 0; border: none; border-bottom: 1.5px solid #2F6BE0; background: transparent; color: #123FA8; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Alam ko &rsquo;to</button>
+              </div>
+            </sc-if>
+          </sc-if>
+          <sc-if value="{{ fcDone }}" hint-placeholder-val="{{ false }}">
+            <div class="wv-card" style="border-radius: 22px; padding: 40px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.85); text-align: center;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.8px; letter-spacing: 0.14em; color: #123FA8; text-transform: uppercase;">Session done</div>
+              <div style="font-family: 'Newsreader', serif; font-size: 27px; margin: 12px 0 20px; color: #0E2647;"><span style="font-style: italic; color: #123FA8;">Ayos!</span> Cards finished.</div>
+              <div style="display: flex; gap: 12px; justify-content: center;">
+                <div style="background: rgba(23,133,98,0.08); border-radius: 14px; padding: 16px 28px;"><div style="font-family: 'Newsreader', serif; font-size: 25px; color: #178562;">{{ fcKnew }}</div><div style="font-size: 11px; color: #667497;">Knew it</div></div>
+                <div style="background: rgba(198,86,64,0.08); border-radius: 14px; padding: 16px 28px;"><div style="font-family: 'Newsreader', serif; font-size: 25px; color: #c65640;">{{ fcMissed }}</div><div style="font-size: 11px; color: #667497;">To review</div></div>
+              </div>
+              <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: center;">
+                <button onClick="{{ startQuiz }}" class="wv-btn" style="padding: 10px 18px; border-radius: 0; border: none; border-bottom: 1.5px solid #2F6BE0; background: transparent; color: #123FA8; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Take the quiz</button>
+                <button onClick="{{ goToday }}" class="wv-btn" style="padding: 10px 18px; border-radius: 0; border: none; border-bottom: 1px solid rgba(18,63,168,0.28); background: transparent; color: #47536A; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Back to Today</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- ═══ QUIZ ═══ -->
+      <sc-if value="{{ isQuiz }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Web Quiz" style="animation: fadeUp 0.4s ease; max-width: 660px; margin: 0 auto;">
+          <sc-if value="{{ qActive }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <button onClick="{{ goPack }}" style="border: none; background: transparent; color: #667497; font-size: 12px; font-weight: 500; font-family: inherit; cursor: pointer;">&larr; Exit quiz</button>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #667497;">{{ qNum }} / {{ qTotal }}</div>
+            </div>
+            <div style="height: 2px; background: rgba(14,23,90,0.055); border-radius: 2px; margin-top: 12px; overflow: hidden;"><div style="height: 100%; background: linear-gradient(90deg, #7E9CFF, #F3E5B8); border-radius: 2px; transition: width 0.3s ease; width: {{ qProgress }};"></div></div>
+            <div class="wv-card" style="margin-top: 22px; border-radius: 22px; padding: 32px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.85);">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; color: #9AA6BC;">{{ qTypeLabel }}</div>
+              <div style="font-family: 'Newsreader', serif; font-size: 20px; line-height: 1.35; margin-top: 10px; color: #0E2647;">{{ q.q }}</div>
+
+              <sc-if value="{{ qIsMcq }}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 22px;">
+                  <sc-for list="{{ qChoices }}" as="c" hint-placeholder-count="4">
+                    <button onClick="{{ c.onSelect }}" class="wv-btn" style="{{ c.style }}"><span>{{ c.text }}</span><span style="font-weight: 700;">{{ c.mark }}</span></button>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ qNotSubmitted }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ submitMcq }}" disabled="{{ cantSubmitMcq }}" style="{{ submitBtnStyle }}">Check answer</button>
+                </sc-if>
+                <sc-if value="{{ qSubmitted }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top: 16px; background: rgba(14,23,90,0.03); border: 1px solid rgba(14,23,90,0.08); border-radius: 14px; padding: 16px 18px;"><div style="font-size: 12.5px; font-weight: 700; color: {{ qFbColor }};">{{ qFbTitle }}</div><div style="font-size: 12.5px; line-height: 1.6; color: #47536A; margin-top: 6px;">{{ q.explain }}</div></div>
+                  <button onClick="{{ nextQuestion }}" style="width: 100%; margin-top: 16px; padding: 11px 14px; border-radius: 0; border: none; border-bottom: 1.5px solid #2F6BE0; background: transparent; color: #123FA8; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer;">{{ qNextLabel }}</button>
+                </sc-if>
+              </sc-if>
+
+              <sc-if value="{{ qIsShort }}" hint-placeholder-val="{{ false }}">
+                <textarea value="{{ qShort }}" onChange="{{ setQShort }}" rows="4" placeholder="Sagutin sa sarili mong salita..." style="width: 100%; box-sizing: border-box; margin-top: 20px; padding: 15px; border: 0.5px solid rgba(14,23,90,0.085); border-radius: 14px; background: rgba(255,255,255,0.9); font-size: 12.5px; color: #0E2647; font-family: inherit; line-height: 1.6; resize: vertical;"></textarea>
+                <sc-if value="{{ qSuggestedHidden }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ showSuggested }}" disabled="{{ cantShowSuggested }}" style="{{ suggestedBtnStyle }}">Compare with suggested answer</button>
+                </sc-if>
+                <sc-if value="{{ qShortShown }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top: 16px; background: rgba(14,23,90,0.03); border: 1px solid rgba(14,23,90,0.08); border-radius: 14px; padding: 16px 18px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; color: #667497; text-transform: uppercase;">Suggested answer</div><div style="font-size: 12.5px; line-height: 1.65; color: #33415A; margin-top: 9px;">{{ q.suggested }}</div></div>
+                  <div style="display: flex; gap: 12px; margin-top: 16px;">
+                    <button onClick="{{ selfMarkMissed }}" class="wv-btn" style="flex: 1; padding: 11px 14px; border-radius: 0; border: none; border-bottom: 1px solid rgba(18,63,168,0.28); background: transparent; color: #47536A; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">I missed it</button>
+                    <button onClick="{{ selfMarkCorrect }}" class="wv-btn" style="flex: 1; padding: 11px 14px; border-radius: 0; border: none; border-bottom: 1.5px solid #2F6BE0; background: transparent; color: #123FA8; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">I got it</button>
+                  </div>
+                </sc-if>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ qDone }}" hint-placeholder-val="{{ false }}">
+            <div class="wv-card" style="border-radius: 22px; padding: 40px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.85); text-align: center;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.8px; letter-spacing: 0.14em; color: #123FA8; text-transform: uppercase;">Quiz done</div>
+              <div style="font-family: 'Newsreader', serif; font-size: 28px; margin: 12px 0 8px; color: #0E2647;">Score: <span style="font-style: italic; color: #123FA8;">{{ qScoreLine }}</span></div>
+              <div style="font-size: 12.5px; color: #667497; max-width: 44ch; margin: 0 auto; line-height: 1.6;">Weak items are saved to your Review library so you can practice them again before the exam.</div>
+              <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: center;">
+                <button onClick="{{ goLibrary }}" class="wv-btn" style="padding: 10px 18px; border-radius: 0; border: none; border-bottom: 1px solid rgba(18,63,168,0.28); background: transparent; color: #47536A; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Open Review</button>
+                <button onClick="{{ goToday }}" class="wv-btn" style="padding: 10px 18px; border-radius: 0; border: none; border-bottom: 1.5px solid #2F6BE0; background: transparent; color: #123FA8; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Back to Today</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- ═══ REVIEW ═══ -->
+      <sc-if value="{{ isLibrary }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Web Review" style="animation: fadeUp 0.4s ease; max-width: 1080px;">
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px;">
+            <sc-for list="{{ libraryItems }}" as="item" hint-placeholder-count="2">
+              <button onClick="{{ item.onOpen }}" class="wv-card wv-btn" style="text-align: left; border-radius: 18px; padding: 24px; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.82); font-family: inherit; cursor: pointer;">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px;"><div style="font-family: 'Newsreader', serif; font-size: 18px; color: #0E2647; line-height: 1.25;">{{ item.topic }}</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #9AA6BC; white-space: nowrap;">{{ item.subject }}</div></div>
+                <div style="font-size: 11.5px; color: #667497; margin-top: 10px;">{{ item.metaLine }}</div>
+              </button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ hasWeak }}" hint-placeholder-val="{{ true }}">
+            <div class="wv-card" style="margin-top: 16px; border-radius: 18px; padding: 22px 26px; border: 0.5px solid rgba(14,23,90,0.07); background: linear-gradient(150deg, rgb(14, 23, 90), rgba(14,23,90,0.92)); color: #F6F8FC; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+              <div><div style="font-size: 13.5px; font-weight: 600;">{{ weakCount }} weak items across your packs</div><div style="font-size: 11.5px; color: rgba(224,232,255,0.6); margin-top: 3px;">Practice them before July 9.</div></div>
+              <button onClick="{{ startQuiz }}" class="wv-btn wv-act-t" style="padding: 8px 14px; border: none; background: transparent; color: #AEC0FF; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Practice &rarr;</button>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- ═══ PROFILE ═══ -->
+      <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Web Profile" style="animation: fadeUp 0.4s ease; max-width: 680px;">
+          <div class="wv-card" style="border-radius: 20px; overflow: hidden; border: 0.5px solid rgba(14,23,90,0.07); background: rgba(255,255,255,0.82);">
+            <div style="padding: 18px 24px; border-bottom: 0.5px solid rgba(14,23,90,0.045);"><div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #9AA6BC; text-transform: uppercase;">Name</div><div style="font-size: 13.5px; margin-top: 4px; color: #0E2647;">{{ profileName }}</div></div>
+            <div style="padding: 18px 24px; border-bottom: 0.5px solid rgba(14,23,90,0.045);"><div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #9AA6BC; text-transform: uppercase;">School</div><div style="font-size: 13.5px; margin-top: 4px; color: #0E2647;">{{ profileSchool }}</div></div>
+            <div style="padding: 18px 24px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #9AA6BC; text-transform: uppercase;">Course &amp; year</div><div style="font-size: 13.5px; margin-top: 4px; color: #0E2647;">{{ profileCourse }}</div></div>
+          </div>
+          <div class="cog-particle-field" style="margin: 22px 0 0; padding: 18px 16px 15px; border-radius: 18px; border: 0.5px solid rgba(126,156,255,0.20); background: radial-gradient(100% 88% at 50% 6%, rgba(126,156,255,0.22), transparent 62%), radial-gradient(72% 60% at 50% 46%, rgba(47,107,224,0.20), transparent 62%), linear-gradient(155deg, #0C1658, #05081F); box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), 0 22px 46px -28px rgba(5,8,31,0.8); text-align: left; overflow: hidden; position: relative;">
+                  <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 50% 40%, rgba(126,156,255,0.14), transparent 36%), linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent); opacity: 0.9;"></div>
+                  <div style="position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.8px; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(174,192,255,0.92);">Cognitive hologram</div>
+                    <div style="font-size: 9.5px; color: rgba(231,238,247,0.58);">interactive prototype</div>
+                  </div>
+                  <div style="position: relative; min-height: 420px; margin: 8px 0 4px; display: flex; align-items: center; justify-content: center;">
+                    <canvas class="cog-brain-canvas" style="width: 100%; height: 440px;"></canvas>
+                  </div>
+                  <div style="position: relative; display: flex; flex-direction: column; margin-top: 14px;">
+                    <sc-for list="{{ brainRegions }}" as="r" hint-placeholder-count="3">
+                      <div class="cog-region-row" style="display: grid; grid-template-columns: 94px 1fr 32px; align-items: center; gap: 14px; padding: 12px 2px; border-top: 0.5px solid rgba(255,255,255,0.08);">
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(224,232,255,0.92); white-space: nowrap;">{{ r.name }}</div>
+                        <div style="min-width: 0;"><div style="height: 1px; background: rgba(255,255,255,0.12); overflow: hidden;"><div style="height: 100%; width: {{ r.load }}; background: {{ r.color }}; box-shadow: 0 0 8px {{ r.glow }};"></div></div><div style="font-size: 8.6px; color: rgba(231,238,247,0.44); margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">daily signal: {{ r.task }}</div></div>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; text-align: right; color: rgba(174,192,255,0.9);">{{ r.load }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ showWeakStrip }}" hint-placeholder-val="{{ true }}">
+                    <button onClick="{{ startQuiz }}" class="cog-region-row" style="width: 100%; margin-top: 0; padding: 13px 2px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border: none; border-top: 0.5px solid rgba(255,255,255,0.08); background: transparent; color: #EAF0FF; font-family: inherit; cursor: pointer;"><span style="font-size: 11px;"><span style="font-weight: 700; color: #EAD6A0;">{{ weakCount }}</span> weak items to review before exam</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; color: rgba(174,192,255,0.95);">PRACTICE &rarr;</span></button>
+                  </sc-if>
+                  <div style="position: relative; font-size: 9.5px; color: rgba(231,238,247,0.50); line-height: 1.45; margin-top: 10px;">Drag to orbit the brain &middot; &#8984;/Ctrl + scroll to zoom &middot; tap a bright node for its progress map.</div>
+                </div>
+          <div style="margin-top: 24px; padding-top: 20px; border-top: 0.5px solid rgba(14,23,90,0.10);">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: #667497;">Prototype controls</div>
+            <div style="font-size: 11.5px; color: #667497; margin-top: 7px;">Reset the prototype to test both starting states.</div>
+            <div style="display: flex; gap: 18px; flex-wrap: wrap; margin-top: 13px;">
+              <button onClick="{{ resetFirstRun }}" class="wv-btn wv-act" style="padding: 9px 14px; border-radius: 10px; border: none; background: transparent; color: #47536A; font-size: 11.5px; font-weight: 600; font-family: inherit; cursor: pointer;">First-run state</button>
+              <button onClick="{{ resetActive }}" class="wv-btn wv-act" style="padding: 9px 14px; border-radius: 10px; border: none; background: transparent; color: #47536A; font-size: 11.5px; font-weight: 600; font-family: inherit; cursor: pointer;">Active-exam state</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </main>
+
+  <!-- generation overlay -->
+  <sc-if value="{{ generating }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; background: linear-gradient(160deg, rgba(10,26,40,0.98), rgba(14,42,62,0.98)); z-index: 90; display: flex; align-items: center; justify-content: center;">
+      <div style="width: 320px;">
+        <div style="display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'JetBrains Mono', monospace; font-size: 9.8px; letter-spacing: 0.14em; color: #F3E5B8; text-transform: uppercase;"><span style="width: 15px; height: 1px; background: #7E9CFF; display: block;"></span>Generating study pack</div>
+        <div style="font-family: 'Newsreader', serif; font-size: 19px; color: #F6F8FC; margin-top: 12px; line-height: 1.35;">{{ todayTopic }}</div>
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 28px;">
+          <sc-for list="{{ genSteps }}" as="step" hint-placeholder-count="4">
+            <div style="display: flex; align-items: center; gap: 12px;"><span style="{{ step.dotStyle }}"></span><span style="font-size: 12.5px; color: {{ step.color }};">{{ step.label }}</span></div>
+          </sc-for>
+        </div>
+        <div style="height: 2px; background: rgba(255,255,255,0.12); border-radius: 1px; margin-top: 30px; overflow: hidden; position: relative;"><div style="position: absolute; top: 0; left: 0; height: 100%; width: 40%; background: linear-gradient(90deg, #7E9CFF, #F3E5B8); animation: slideBar 1.2s ease-in-out infinite;"></div></div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1320, &quot;height&quot;: 880}, &quot;startState&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;active&quot;, &quot;first-run&quot;], &quot;default&quot;: &quot;active&quot;, &quot;tsType&quot;: &quot;'active' | 'first-run'&quot;, &quot;section&quot;: &quot;Prototype&quot;, &quot;description&quot;: &quot;active = full dashboard; first-run = start on Add material&quot;}}">
+class Component extends DCLogic {
+  state = {
+    firstRun: false, screen: 'today', prevScreen: null,
+    planCreated: true, packReady: true,
+    materialTab: 'paste', pasteText: '', lang: 'taglish', pdfState: 'idle',
+    generating: false, genStep: 0,
+    fcIndex: 0, fcRevealed: false, fcKnew: 0, fcMissed: 0, fcMissedList: [], fcDone: false,
+    qIndex: 0, qSelected: null, qSubmitted: false, qShort: '', qShortShown: false,
+    qCorrect: 0, qWeak: [], qDone: false,
+    obName: '', obSchool: '', obCourse: ''
+  };
+
+  componentDidMount() {
+    const start = this.props.startState ?? 'active';
+    if (start === 'first-run') this.applyFirstRun();
+    this._onMove = (e) => {
+      const card = e.target && e.target.closest ? e.target.closest('.wv-card') : null;
+      document.querySelectorAll('.wv-card.is-hovering').forEach((c) => { if (c !== card) c.classList.remove('is-hovering'); });
+      if (card) { const r = card.getBoundingClientRect(); card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%'); card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%'); card.classList.add('is-hovering'); }
+    };
+    document.addEventListener('pointermove', this._onMove, { passive: true });
+    requestAnimationFrame(() => this.ensureBrain());
+    this._brainPoll = setInterval(() => this.ensureBrain(), 500);
+  }
+  componentWillUnmount() {
+    if (this._onMove) document.removeEventListener('pointermove', this._onMove);
+    if (this._brainStop) { this._brainStop(); this._brainStop = null; }
+    if (this._brainPoll) clearInterval(this._brainPoll);
+  }
+  componentDidUpdate(prev) {
+    if (prev.startState !== this.props.startState) {
+      if (this.props.startState === 'first-run') this.applyFirstRun(); else this.applyActive();
+    }
+    requestAnimationFrame(() => this.ensureBrain());
+  }
+
+  ensureBrain() {
+    const canvas = document.querySelector('.cog-brain-canvas');
+    if (!canvas) { if (this._brainStop) { this._brainStop(); this._brainStop = null; } this._brainCanvas = null; return; }
+    if (canvas === this._brainCanvas && canvas.isConnected) return;
+    if (this._brainStop) { this._brainStop(); this._brainStop = null; }
+    this._brainCanvas = canvas;
+    this._brainStop = this.runBrain(canvas);
+  }
+
+  runBrain(canvas) {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return () => {};
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const VBW = 300, VBH = 260, CX = 150, CY = 140, TMAX = 68;
+    const D = 'M64 120 C60 98 74 82 96 76 C120 58 150 56 178 66 C206 58 232 74 246 100 C256 118 256 140 248 158 C242 174 232 186 216 194 C204 200 194 196 190 186 C188 202 182 214 172 214 C163 214 160 200 163 188 C150 190 142 184 134 190 C122 200 104 198 92 188 C78 180 66 164 62 146 C58 136 60 128 64 120 Z';
+    const silhouette = new Path2D(D);
+    const mask = document.createElement('canvas'); mask.width = VBW; mask.height = VBH;
+    const mc = mask.getContext('2d'); mc.fillStyle = '#fff'; mc.fill(silhouette);
+    const md = mc.getImageData(0, 0, VBW, VBH).data;
+    const inside = (x, y) => { const xi = x | 0, yi = y | 0; if (xi < 1 || yi < 1 || xi >= VBW - 1 || yi >= VBH - 1) return false; return md[(yi * VBW + xi) * 4 + 3] > 20; };
+    // inside distance transform (chamfer) -> lateral thickness
+    const dist = new Float32Array(VBW * VBH); const BIG = 1e6; const idx = (x, y) => y * VBW + x;
+    for (let i = 0; i < VBW * VBH; i++) dist[i] = md[i * 4 + 3] > 20 ? BIG : 0;
+    for (let y = 1; y < VBH; y++) for (let x = 1; x < VBW - 1; x++) { if (dist[idx(x, y)] === 0) continue; let m = dist[idx(x, y)]; m = Math.min(m, dist[idx(x - 1, y)] + 1, dist[idx(x, y - 1)] + 1, dist[idx(x - 1, y - 1)] + 1.414, dist[idx(x + 1, y - 1)] + 1.414); dist[idx(x, y)] = m; }
+    for (let y = VBH - 2; y >= 0; y--) for (let x = VBW - 2; x >= 1; x--) { if (dist[idx(x, y)] === 0) continue; let m = dist[idx(x, y)]; m = Math.min(m, dist[idx(x + 1, y)] + 1, dist[idx(x, y + 1)] + 1, dist[idx(x + 1, y + 1)] + 1.414, dist[idx(x - 1, y + 1)] + 1.414); dist[idx(x, y)] = m; }
+    let maxD = 1; for (let i = 0; i < dist.length; i++) if (dist[i] < BIG && dist[i] > maxD) maxD = dist[i];
+    const thick = (x, y) => { const xi = Math.max(1, Math.min(VBW - 2, x | 0)), yi = Math.max(1, Math.min(VBH - 2, y | 0)); const d = dist[idx(xi, yi)]; if (d >= BIG || d <= 0) return 0; return TMAX * Math.sqrt(Math.min(1, d / maxD)); };
+    const rnd = (a, b) => a + Math.random() * (b - a);
+
+    // outline + fold sampling
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('width', '0'); svg.setAttribute('height', '0'); svg.style.cssText = 'position:absolute;left:-9999px;top:-9999px;';
+    const pel = document.createElementNS(NS, 'path'); pel.setAttribute('d', D); svg.appendChild(pel); document.body.appendChild(svg);
+    let total = 1200; try { total = pel.getTotalLength() || 1200; } catch (e) {}
+    const foldDefs = ['M96 150 C124 140 158 138 192 143 C210 146 226 140 236 132', 'M150 74 C146 100 140 124 138 152', 'M104 100 C128 94 150 98 172 106', 'M190 84 C200 110 200 136 194 160', 'M112 172 C138 180 164 182 190 172', 'M120 126 C142 120 164 122 184 130'];
+    const foldPaths = foldDefs.map(d => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); svg.appendChild(p); let L = 100; try { L = p.getTotalLength() || 100; } catch (e) {} return { p, L }; });
+
+    const makeSprite = (inner, outer) => { const c = document.createElement('canvas'); c.width = c.height = 24; const g = c.getContext('2d'); const rg = g.createRadialGradient(12, 12, 0, 12, 12, 12); rg.addColorStop(0, inner); rg.addColorStop(0.45, outer); rg.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = rg; g.fillRect(0, 0, 24, 24); return c; };
+    const spWhite = makeSprite('rgba(233,243,255,1)', 'rgba(150,185,255,0.5)');
+    const spBlue = makeSprite('rgba(150,180,255,1)', 'rgba(70,110,235,0.4)');
+    const spViolet = makeSprite('rgba(196,170,255,1)', 'rgba(130,90,240,0.35)');
+    const spPink = makeSprite('rgba(255,150,210,1)', 'rgba(255,80,170,0.3)');
+
+    const P = [];
+    const RIM = 360;
+    for (let i = 0; i < RIM; i++) { let px = 150, py = 60; try { const p = pel.getPointAtLength(i / RIM * total); px = p.x; py = p.y; } catch (e) {} P.push({ x: px, y: py, z: rnd(-6, 6), r: rnd(0.5, 1.1), base: rnd(0.6, 0.95), sp: rnd(0.001, 0.003), ph: rnd(0, 6.28), spr: spWhite }); }
+    let placed = 0, guard = 0;
+    while (placed < 900 && guard < 9000) { guard++; const x = rnd(56, 258), y = rnd(54, 236); if (!inside(x, y)) continue; const T = thick(x, y); if (T < 3) continue; const zz = T * rnd(0.82, 1.0) * (Math.random() < 0.5 ? 1 : -1); P.push({ x, y, z: zz, r: rnd(0.45, 1.0), base: rnd(0.4, 0.8), sp: rnd(0.001, 0.0028), ph: rnd(0, 6.28), spr: (Math.random() < 0.6 ? spWhite : spBlue) }); placed++; }
+    placed = 0; guard = 0;
+    while (placed < 1050 && guard < 10000) { guard++; const x = rnd(56, 258), y = rnd(54, 236); if (!inside(x, y)) continue; const T = thick(x, y); const zz = rnd(-1, 1) * T * 0.85; const dc = Math.hypot(x - CX, y - CY); const central = Math.max(0, 1 - dc / 95); let spr = spBlue; const rr = Math.random(); if (rr < 0.12 + central * 0.25) spr = spViolet; else if (rr < 0.17) spr = spWhite; P.push({ x, y, z: zz, r: rnd(0.35, 0.9), base: rnd(0.14, 0.4) + central * 0.18, sp: rnd(0.0008, 0.0026), ph: rnd(0, 6.28), spr }); placed++; }
+    foldPaths.forEach(fd => { const n = Math.max(16, Math.floor(fd.L / 3.5)); for (let i = 0; i < n; i++) { let px = 150, py = 120; try { const p = fd.p.getPointAtLength(i / n * fd.L); px = p.x; py = p.y; } catch (e) {} if (!inside(px, py)) continue; const T = thick(px, py); P.push({ x: px, y: py, z: T * rnd(0.7, 0.95) * (Math.random() < 0.5 ? 1 : -1), r: rnd(0.4, 0.85), base: rnd(0.4, 0.7), sp: rnd(0.001, 0.0028), ph: rnd(0, 6.28), spr: spWhite }); } });
+    for (let i = 0; i < 12; i++) P.push({ x: rnd(20, 285), y: rnd(20, 245), z: rnd(-45, 45), r: rnd(0.5, 1.0), base: rnd(0.4, 0.8), sp: rnd(0.001, 0.003), ph: rnd(0, 6.28), spr: spPink, pink: true, dx: rnd(0.003, 0.008) * (Math.random() < 0.5 ? -1 : 1), dph: rnd(0, 6.28) });
+
+    const NODES = [
+      { id: 'noli', label: 'Noli Me Tangere', region: 'Temporal lobe \u00b7 comprehension', x: 150, y: 156, prog: 0.7, cards: '8 cards', quiz: '5 / 6', weak: 1, hist: ['Jul 2 \u00b7 reviewed 8 cards', 'Jul 2 \u00b7 quiz 5/6', 'Jul 1 \u00b7 pack generated'] },
+      { id: 'elfili', label: 'El Filibusterismo', region: 'Frontal lobe \u00b7 analysis', x: 100, y: 116, prog: 0.3, cards: '6 cards', quiz: '\u2014', weak: 0, hist: ['Jul 3 \u00b7 scheduled', 'Not started yet'] },
+      { id: 'rizallaw', label: 'Rizal Law \u00b7 RA 1425', region: 'Parietal \u00b7 context', x: 196, y: 102, prog: 1.0, cards: '5 cards', quiz: '6 / 6', weak: 0, hist: ['Jul 1 \u00b7 mastered', 'Jul 1 \u00b7 quiz 6/6'] },
+      { id: 'morga', label: 'Morga\u2019s Sucesos', region: 'Occipital \u00b7 sources', x: 236, y: 150, prog: 0.15, cards: '\u2014', quiz: '\u2014', weak: 0, hist: ['Jul 4 \u00b7 scheduled'] },
+      { id: 'laliga', label: 'La Liga Filipina', region: 'Cerebellum \u00b7 timeline', x: 206, y: 184, prog: 0.1, cards: '\u2014', quiz: '\u2014', weak: 0, hist: ['Jul 5 \u00b7 scheduled'] },
+      { id: 'weak', label: 'Weak items', region: 'Hippocampus \u00b7 repair', x: 140, y: 178, prog: 0.4, cards: '2 items', quiz: 'review', weak: 2, hist: ['Jul 2 \u00b7 2 items flagged', 'Balikan before exam'] }
+    ];
+    NODES.forEach(n => { n.z = thick(n.x, n.y) * 0.62; });
+    const NLINKS = [['noli', 'elfili'], ['noli', 'weak'], ['noli', 'rizallaw'], ['elfili', 'rizallaw'], ['noli', 'morga'], ['rizallaw', 'laliga'], ['morga', 'laliga']];
+    const nodeById = id => NODES.find(n => n.id === id);
+
+    // panel
+    const field = canvas.closest('.cog-particle-field');
+    field.querySelectorAll('.cog-node-panel').forEach(e => e.remove());
+    const panel = document.createElement('div'); panel.className = 'cog-node-panel';
+    panel.style.cssText = 'position:absolute;right:12px;top:12px;width:212px;max-width:66%;padding:14px 15px;border-radius:14px;background:linear-gradient(160deg,rgba(16,28,86,0.94),rgba(8,14,46,0.94));border:0.5px solid rgba(126,156,255,0.42);box-shadow:0 22px 54px -22px rgba(0,0,0,0.75);backdrop-filter:blur(7px);color:#EAF0FF;opacity:0;transform:translateX(14px);pointer-events:none;transition:opacity .42s cubic-bezier(.16,1,.3,1),transform .42s cubic-bezier(.16,1,.3,1);z-index:6;font-family:inherit;';
+    field.appendChild(panel);
+    let selected = null;
+    const renderPanel = (n) => {
+      if (!n) { panel.style.opacity = '0'; panel.style.transform = 'translateX(14px)'; panel.style.pointerEvents = 'none'; return; }
+      const pct = Math.round(n.prog * 100);
+      panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;"><div style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(174,192,255,0.9);">Node schematic</div><button class="cog-panel-x" style="border:none;background:transparent;color:rgba(231,238,247,0.6);font-size:15px;line-height:1;cursor:pointer;padding:0;">\u00d7</button></div>'
+        + '<div style="font-family:Newsreader,serif;font-size:16px;line-height:1.15;margin-top:6px;color:#fff;">' + n.label + '</div>'
+        + '<div style="font-size:9px;color:rgba(174,192,255,0.85);margin-top:3px;">' + n.region + '</div>'
+        + '<div style="height:2px;border-radius:9px;background:rgba(255,255,255,0.14);overflow:hidden;margin-top:11px;"><div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#7E9CFF,#2F6BE0);"></div></div>'
+        + '<div style="font-size:8.5px;color:rgba(231,238,247,0.55);margin-top:4px;">' + pct + '% mastered</div>'
+        + '<div style="display:flex;gap:6px;margin-top:10px;"><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:8px;padding:6px 7px;"><div style="font-size:11px;color:#EAF0FF;font-weight:600;">' + n.cards + '</div><div style="font-size:7.5px;color:rgba(231,238,247,0.5);">flashcards</div></div><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:8px;padding:6px 7px;"><div style="font-size:11px;color:#EAF0FF;font-weight:600;">' + n.quiz + '</div><div style="font-size:7.5px;color:rgba(231,238,247,0.5);">quiz</div></div><div style="flex:1;background:rgba(196,74,52,0.12);border-radius:8px;padding:6px 7px;"><div style="font-size:11px;color:#FF9A86;font-weight:600;">' + n.weak + '</div><div style="font-size:7.5px;color:rgba(231,238,247,0.5);">weak</div></div></div>'
+        + '<div style="font-family:JetBrains Mono,monospace;font-size:7.5px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(174,192,255,0.75);margin-top:12px;">History</div>'
+        + n.hist.map((h, i) => '<div style="display:flex;gap:7px;align-items:baseline;margin-top:6px;"><span style="width:4px;height:4px;border-radius:9px;flex-shrink:0;background:' + (i === 0 ? '#7E9CFF' : 'rgba(126,156,255,0.4)') + ';margin-top:1px;"></span><span style="font-size:9px;color:rgba(231,238,247,0.72);line-height:1.3;">' + h + '</span></div>').join('');
+      panel.style.opacity = '1'; panel.style.transform = 'translateX(0)'; panel.style.pointerEvents = 'auto';
+      const x = panel.querySelector('.cog-panel-x'); if (x) x.onclick = (ev) => { ev.stopPropagation(); selected = null; renderPanel(null); };
+    };
+
+    let dpr = 1, cssW = 0, cssH = 0, sc = 1, ox = 0, oy = 0;
+    const layout = () => { dpr = Math.min(window.devicePixelRatio || 1, 2); cssW = canvas.clientWidth || 400; cssH = canvas.clientHeight || 280; canvas.width = Math.max(1, Math.round(cssW * dpr)); canvas.height = Math.max(1, Math.round(cssH * dpr)); sc = Math.min(cssW / VBW, cssH / VBH) * 1.16; ox = (cssW - VBW * sc) / 2; oy = (cssH - VBH * sc) / 2; };
+    layout();
+    let ro; try { ro = new ResizeObserver(() => layout()); ro.observe(canvas); } catch (e) {}
+
+    let yaw = 0.0, pitch = 0.06, dragging = false, lastX = 0, lastY = 0, moved = false, sway = 0, zoom = 1, zoomT = 1;
+    let mcssx = -999, mcssy = -999, hovering = false, hoverEase = 0, hotNode = null;
+    const F = 430;
+    const project = (p) => { const ey = yaw + sway; const sy = Math.sin(ey), cy = Math.cos(ey), sx = Math.sin(pitch), cx = Math.cos(pitch); const px = p.x - CX, py = p.y - CY, pz = p.z || 0; const rx = px * cy + pz * sy; const rz = -px * sy + pz * cy; const ry = py * cx - rz * sx; const rz2 = py * sx + rz * cx; const scl = F / (F + rz2); return { x: CX + rx * scl, y: CY + ry * scl, scl }; };
+
+    const onDown = (e) => { dragging = true; moved = false; lastX = e.clientX; lastY = e.clientY; canvas.style.cursor = 'grabbing'; try { canvas.setPointerCapture(e.pointerId); } catch (er) {} };
+    const onMove = (e) => { const rct = canvas.getBoundingClientRect(); mcssx = e.clientX - rct.left; mcssy = e.clientY - rct.top; if (dragging) { const dx = e.clientX - lastX, dy = e.clientY - lastY; if (Math.abs(dx) + Math.abs(dy) > 2) moved = true; yaw += dx * 0.008; pitch -= dy * 0.006; if (pitch < -0.05) pitch = -0.05; if (pitch > 1.15) pitch = 1.15; lastX = e.clientX; lastY = e.clientY; } else { hovering = true; } };
+    const onUp = () => { dragging = false; canvas.style.cursor = hotNode ? 'pointer' : 'grab'; };
+    const onWheel = (e) => { if (e.ctrlKey || e.metaKey) { e.preventDefault(); zoomT *= (1 - e.deltaY * 0.0016); if (zoomT < 0.55) zoomT = 0.55; if (zoomT > 4) zoomT = 4; } };
+    const onLeave = () => { hovering = false; mcssx = -999; mcssy = -999; if (!dragging) canvas.style.cursor = 'grab'; };
+    const onClick = () => { if (moved) return; if (hotNode) { selected = (selected && selected.id === hotNode.id) ? null : hotNode; renderPanel(selected); } };
+    canvas.style.cursor = 'grab';
+    canvas.addEventListener('pointerdown', onDown);
+    canvas.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerup', onUp);
+    canvas.addEventListener('pointerleave', onLeave);
+    canvas.addEventListener('click', onClick);
+    canvas.addEventListener('wheel', onWheel, { passive: false });
+
+    let raf = 0;
+    const draw = (t) => {
+      sway = dragging ? 0 : Math.sin(t * 0.00035) * 0.05;
+      hoverEase += ((hovering && !dragging ? 1 : 0) - hoverEase) * 0.08;
+      zoom += (zoomT - zoom) * 0.15;
+      const scz = sc * zoom, tx = ox + CX * sc - CX * scz, ty = oy + CY * sc - CY * scz;
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.translate(tx, ty); ctx.scale(scz, scz);
+      const neb = ctx.createRadialGradient(CX, CY - 6, 6, CX, CY, 122); neb.addColorStop(0, 'rgba(150,110,240,0.20)'); neb.addColorStop(0.5, 'rgba(70,100,220,0.09)'); neb.addColorStop(1, 'rgba(70,100,220,0)'); ctx.fillStyle = neb; ctx.fillRect(20, 10, 260, 240);
+      const focus = selected;
+      // hot node detection
+      hotNode = null;
+      if (!dragging && mcssx > -500) { const mx = (mcssx - tx) / scz, my = (mcssy - ty) / scz; let bd = 9; NODES.forEach(n => { const pr = project(n); const d = Math.hypot(mx - pr.x, my - pr.y); if (d < bd) { bd = d; hotNode = n; } }); if (canvas.style.cursor !== 'grabbing') canvas.style.cursor = hotNode ? 'pointer' : 'grab'; }
+      // particles (additive)
+      ctx.globalCompositeOperation = 'lighter';
+      for (const p of P) {
+        let src = p; if (p.pink) src = { x: p.x + Math.sin(t * p.dx + p.dph) * 12, y: p.y + Math.cos(t * p.dx * 0.8 + p.dph) * 8, z: p.z };
+        const pr = project(src);
+        const tw = p.base * (0.5 + 0.5 * Math.sin(t * p.sp + p.ph));
+        let a = tw * Math.min(1.15, pr.scl);
+        if (focus) a *= 0.26;
+        const x = pr.x;
+        if (a <= 0.012) continue;
+        ctx.globalAlpha = Math.min(1, a);
+        const sz = p.r * pr.scl * 2.5;
+        ctx.drawImage(p.spr, x - sz, pr.y - sz, sz * 2, sz * 2);
+      }
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+      // node links
+      NLINKS.forEach(([a, b]) => { const na = nodeById(a), nb = nodeById(b); if (!na || !nb) return; const rel = focus && (focus.id === a || focus.id === b); const al = focus ? (rel ? 0.6 : 0.05) : 0.13; if (al <= 0.01) return; const pa = project(na), pb = project(nb); ctx.strokeStyle = 'rgba(126,156,255,' + al + ')'; ctx.lineWidth = (rel ? 1.1 : 0.5) / sc; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(pa.x, pa.y); ctx.lineTo(pb.x, pb.y); ctx.stroke(); });
+      // nodes (additive)
+      ctx.globalCompositeOperation = 'lighter';
+      NODES.forEach(n => { const pr = project(n); const isHot = hotNode && hotNode.id === n.id; const isSel = focus && focus.id === n.id; const isNbr = focus && !isSel && NLINKS.some(([a, b]) => (a === focus.id && b === n.id) || (b === focus.id && a === n.id)); const a = focus ? (isSel ? 1 : (isNbr ? 0.92 : 0.2)) : 0.92; const pulse = 0.78 + 0.22 * Math.sin(t * 0.002 + n.x); const rr = (isSel ? 4.8 : isHot ? 4.3 : 3.2) * pulse * pr.scl; ctx.globalAlpha = a; ctx.drawImage(isSel ? spViolet : spWhite, pr.x - rr, pr.y - rr, rr * 2, rr * 2); });
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+      // hover label (screen space)
+      if (hotNode && !focus && !dragging) { const pr = project(hotNode); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const lx = tx + pr.x * scz, ly = ty + pr.y * scz; ctx.font = '600 11px Manrope, system-ui, sans-serif'; const tw = ctx.measureText(hotNode.label).width; const bx = Math.min(lx + 10, cssW - tw - 16); ctx.fillStyle = 'rgba(9,15,48,0.82)'; ctx.beginPath(); ctx.roundRect(bx, ly - 11, tw + 12, 22, 6); ctx.fill(); ctx.fillStyle = '#EAF0FF'; ctx.textBaseline = 'middle'; ctx.fillText(hotNode.label, bx + 6, ly + 1); }
+      if (!reduce) raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+
+    return () => { if (raf) cancelAnimationFrame(raf); if (ro) try { ro.disconnect(); } catch (e) {} canvas.removeEventListener('pointerdown', onDown); canvas.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); canvas.removeEventListener('pointerleave', onLeave); canvas.removeEventListener('click', onClick); canvas.removeEventListener('wheel', onWheel); canvas.style.cursor = 'default'; if (svg && svg.parentNode) svg.parentNode.removeChild(svg); if (panel && panel.parentNode) panel.parentNode.removeChild(panel); };
+  }
+
+  applyFirstRun() { this.setState({ firstRun: true, screen: 'material', prevScreen: null, planCreated: true, packReady: false, pasteText: '', generating: false, genStep: 0, ...this.practiceReset() }); }
+  applyActive() { this.setState({ firstRun: false, screen: 'today', prevScreen: null, planCreated: true, packReady: true, pasteText: '', generating: false, genStep: 0, ...this.practiceReset() }); }
+  practiceReset() { return { fcIndex: 0, fcRevealed: false, fcKnew: 0, fcMissed: 0, fcMissedList: [], fcDone: false, qIndex: 0, qSelected: null, qSubmitted: false, qShort: '', qShortShown: false, qCorrect: 0, qWeak: [], qDone: false }; }
+
+  scrollHome() { const m = document.querySelector('main'); if (m) m.scrollTop = 0; window.scrollTo(0, 0); }
+  go(screen) {
+    const prevScreen = this.state.screen && this.state.screen !== screen ? this.state.screen : this.state.prevScreen;
+    this.setState({ screen, prevScreen });
+    this.scrollHome();
+  }
+  goBack() {
+    const target = this.state.prevScreen || 'today';
+    this.setState({ screen: target, prevScreen: null });
+    this.scrollHome();
+  }
+
+  markCard(knew) {
+    const s = this.state; const cards = (window.ISKOLAB_DATA || {}).flashcards || []; const card = cards[s.fcIndex] || {}; const next = s.fcIndex + 1;
+    const upd = knew ? { fcKnew: s.fcKnew + 1 } : { fcMissed: s.fcMissed + 1, fcMissedList: s.fcMissedList.concat(card.front) };
+    if (next >= cards.length) this.setState({ ...upd, fcDone: true }); else this.setState({ ...upd, fcIndex: next, fcRevealed: false });
+  }
+  advanceQuiz() {
+    const s = this.state; const total = ((window.ISKOLAB_DATA || {}).quiz || []).length; const next = s.qIndex + 1;
+    if (next >= total) this.setState({ qDone: true }); else this.setState({ qIndex: next, qSelected: null, qSubmitted: false, qShort: '', qShortShown: false });
+  }
+
+  renderVals() {
+    const D = window.ISKOLAB_DATA || {}; const s = this.state;
+    const good = '#178562', bad = '#c65640', blue = '#123FA8';
+    const plan = D.examPlan || { topics: [] }; const topicsRaw = plan.topics || [];
+    const cards = D.flashcards || []; const quiz = D.quiz || [];
+    const pack = D.studyPack || { explanation: [], reviewer: [], keyTerms: [], topic: '', source: '', uncertainty: '' };
+    const prof = D.profile || {};
+
+    const btn = (on) => ({ width: '100%', marginTop: '24px', padding: '11px 4px', borderRadius: '0', border: 'none', borderBottom: on ? '1.5px solid #2F6BE0' : '1px solid rgba(14,23,90,0.14)', background: 'transparent', color: on ? '#123FA8' : 'rgba(14,23,90,0.4)', fontSize: '12.5px', fontWeight: 600, fontFamily: 'inherit', cursor: on ? 'pointer' : 'default', boxShadow: 'none' });
+    const seg = (on) => ({ padding: '6px 13px', borderRadius: '999px', border: on ? '0.5px solid rgba(18,63,168,0.4)' : '0.5px solid transparent', background: on ? 'rgba(18,63,168,0.1)' : 'transparent', boxShadow: 'none', color: on ? '#123FA8' : '#667497', fontSize: '11.5px', fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer' });
+    const sideNav = (on) => ({ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', textAlign: 'left', padding: '9px 12px', borderRadius: '12px', border: on ? '0.5px solid rgba(126,156,255,0.28)' : '0.5px solid transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: '12.5px', fontWeight: on ? 600 : 500, color: on ? '#EAF0FF' : 'rgba(224,232,255,0.56)', background: on ? 'rgba(126,156,255,0.12)' : 'transparent', boxShadow: 'none', transition: 'all .2s' });
+
+    const chipMap = {
+      practiced: { label: 'Done', bg: 'rgba(23,133,98,0.10)', color: good },
+      today: { label: 'Today', bg: 'rgba(10,86,168,0.10)', color: blue },
+      pending: { label: 'Planned', bg: 'rgba(14,23,90,0.05)', color: '#667497' },
+      review: { label: 'Review', bg: 'rgba(196,74,52,0.12)', color: '#B4472F' }
+    };
+    const chip = { fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 500, padding: '5px 11px', borderRadius: '999px', whiteSpace: 'nowrap' };
+    const topics = topicsRaw.map(t => { const c = chipMap[t.status] || chipMap.pending; return { ...t, dayShort: (t.day || '').split(',')[0].toUpperCase(), chipLabel: c.label, chipStyle: { ...chip, background: c.bg, color: c.color } }; });
+    const todayTopic = (topicsRaw.find(t => t.status === 'today') || {}).title || 'Today\u2019s topic';
+    const upNext = topicsRaw.filter(t => t.status === 'pending').slice(0, 3).map(t => ({ ...t, dayShort: (t.day || '').split(',')[0].toUpperCase() }));
+
+    const card = cards[s.fcIndex] || {}; const fcTotal = cards.length;
+    const q = quiz[s.qIndex] || {}; const qTotal = quiz.length;
+    const qChoices = (q.choices || []).map((text, i) => {
+      const submitted = s.qSubmitted, isSel = s.qSelected === i, isCorrect = i === q.correct;
+      let bg = 'rgba(255,255,255,0.9)', border = 'rgba(14,23,90,0.12)', mark = '';
+      if (!submitted && isSel) { border = blue; bg = 'rgba(10,86,168,0.07)'; }
+      if (submitted && isCorrect) { border = good; bg = 'rgba(23,133,98,0.09)'; mark = '\u2713'; }
+      if (submitted && isSel && !isCorrect) { border = bad; bg = 'rgba(198,86,64,0.08)'; mark = '\u2715'; }
+      return { text, mark, style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', width: '100%', textAlign: 'left', padding: '14px 16px', borderRadius: '12px', border: '1px solid ' + border, background: bg, color: '#0E2647', fontSize: '12.5px', lineHeight: 1.45, fontFamily: 'inherit', cursor: submitted ? 'default' : 'pointer' },
+        onSelect: () => { if (!this.state.qSubmitted) this.setState({ qSelected: i }); } };
+    });
+    const qRight = s.qSubmitted && s.qSelected === q.correct;
+
+    const genSteps = ['Reading your material', 'Finding key ideas', 'Building flashcards', 'Preparing quiz'].map((label, i) => {
+      const done = s.genStep > i, active = s.genStep === i;
+      return { label, color: done ? '#EEF0FF' : (active ? '#ffffff' : '#5b7488'), dotStyle: { width: '7px', height: '7px', borderRadius: '99px', flexShrink: 0, background: done ? '#7fd0ea' : (active ? '#4aa8ff' : '#33506a'), animation: active ? 'genPulse 0.9s ease-in-out infinite' : 'none' } };
+    });
+
+    const weakItems = D.weakItems || [];
+    const libraryItems = (D.library || []).map(item => ({ ...item, metaLine: 'Generated ' + item.generated + (item.practiced ? ' \u00B7 Practiced ' + item.practiced : ' \u00B7 Not practiced yet') + (item.weak ? ' \u00B7 ' + item.weak + ' weak items' : ''), onOpen: () => this.go('pack') }));
+
+    const canGenerate = s.pasteText.trim().length > 40;
+    const planPct = Math.round(2 / (topicsRaw.length || 7) * 100);
+    const ringC = 2 * Math.PI * 62;
+
+    const titles = { today: ['Today', 'Tuesday, July 3'], exams: ['Exam Plan', 'Your day-by-day schedule to July 9'], material: ['Add material', 'Turn your notes into a study pack'], pack: ['Study pack', 'Everything for today\u2019s topic'], flash: ['Flashcards', 'Active recall practice'], quiz: ['Mixed quiz', 'Test yourself, find weak spots'], library: ['Review', 'Every study pack you\u2019ve made'], profile: ['Profile', 'Your account'] };
+    const pt = titles[s.screen] || ['IskoLab', ''];
+    const primaryScreens = ['today', 'exams', 'library', 'profile'];
+    const backNames = { today: 'Today', exams: 'Exam Plan', material: 'Add Material', pack: 'Study Pack', flash: 'Flashcards', quiz: 'Quiz', library: 'Review', profile: 'Profile' };
+    const backTarget = s.prevScreen || 'today';
+
+    return {
+      isToday: s.screen === 'today', isExams: s.screen === 'exams', isMaterial: s.screen === 'material',
+      isPack: s.screen === 'pack', isFlash: s.screen === 'flash', isQuiz: s.screen === 'quiz',
+      isLibrary: s.screen === 'library', isProfile: s.screen === 'profile',
+      pageTitle: pt[0], pageSub: pt[1], showBack: !primaryScreens.includes(s.screen),
+      backLabel: backNames[backTarget] || 'Back', goBack: () => this.goBack(),
+      navTodayStyle: sideNav(s.screen === 'today'), navExamsStyle: sideNav(s.screen === 'exams'),
+      navLibraryStyle: sideNav(s.screen === 'library'), navProfileStyle: sideNav(s.screen === 'profile'),
+
+      goToday: () => this.go('today'), goExams: () => this.go('exams'), goLibrary: () => this.go('library'),
+      goProfile: () => this.go('profile'), goMaterial: () => this.go('material'), goPack: () => this.go('pack'),
+      startFlash: () => { this.setState(this.practiceReset()); this.go('flash'); },
+      startQuiz: () => { this.setState(this.practiceReset()); this.go('quiz'); },
+
+      topics, upNext, todayTopic, daysLeft: plan.daysLeft,
+      brainRegions: [
+        { name: 'PFC', load: '72%', task: 'reading focus', color: 'linear-gradient(90deg, #C8A44E, #F2E6BE)', glow: 'rgba(240,226,180,0.55)' },
+        { name: 'Hippocampus', load: '58%', task: 'recall reps', color: 'linear-gradient(90deg, #B08B34, #EAD6A0)', glow: 'rgba(240,226,180,0.5)' },
+        { name: 'Temporal', load: '44%', task: 'weak-item repair', color: 'linear-gradient(90deg, rgba(200,164,78,0.8), rgba(242,230,190,0.95))', glow: 'rgba(240,226,180,0.45)' }
+      ],
+      pack, packExplanation: pack.explanation, packReviewer: pack.reviewer, packKeyTerms: pack.keyTerms,
+      fcTotal, weakCount: weakItems.length, hasWeak: weakItems.length > 0, showWeakStrip: weakItems.length > 0 && !s.firstRun,
+      libraryItems,
+      planPct, planPctW: planPct + '%', ringDash: (planPct / 100 * ringC).toFixed(1) + ' ' + ringC.toFixed(1),
+      profileName: prof.name, profileSchool: prof.school, profileCourse: prof.course,
+      avatarInitial: (prof.name || 'I').trim().charAt(0),
+
+      pasteText: s.pasteText, setPasteText: (e) => this.setState({ pasteText: e.target.value.slice(0, 12000) }),
+      pasteCount: s.pasteText.length.toLocaleString(), fillSample: () => this.setState({ pasteText: D.sampleMaterial || '' }),
+      segEnglishStyle: seg(s.lang === 'english'), segTaglishStyle: seg(s.lang === 'taglish'), segFilipinoStyle: seg(s.lang === 'filipino'),
+      setLangEnglish: () => this.setState({ lang: 'english' }), setLangTaglish: () => this.setState({ lang: 'taglish' }), setLangFilipino: () => this.setState({ lang: 'filipino' }),
+      cantGenerate: !canGenerate, genBtnStyle: btn(canGenerate),
+      startGeneration: () => { if (!canGenerate) return; this.setState({ generating: true, genStep: 0 }); [1000, 2000, 3000].forEach((t, i) => setTimeout(() => this.setState({ genStep: i + 1 }), t)); setTimeout(() => { this.setState({ generating: false, packReady: true, firstRun: false }); this.go('pack'); }, 3900); },
+      generating: s.generating, genSteps,
+
+      card, fcNum: s.fcIndex + 1, fcActive: !s.fcDone, fcDone: s.fcDone, fcFront: !s.fcRevealed, fcRevealed: s.fcRevealed,
+      fcKnew: s.fcKnew, fcMissed: s.fcMissed, fcProgress: (fcTotal ? ((s.fcDone ? fcTotal : s.fcIndex) / fcTotal) * 100 : 0) + '%',
+      reveal: () => this.setState({ fcRevealed: true }), markKnew: () => this.markCard(true), markMissed: () => this.markCard(false),
+
+      q, qNum: s.qIndex + 1, qTotal, qChoices, qActive: !s.qDone, qDone: s.qDone,
+      qIsMcq: q.type === 'mcq', qIsShort: q.type === 'short',
+      qTypeLabel: q.type === 'mcq' ? 'MULTIPLE CHOICE' : 'SHORT ANSWER \u00B7 SELF-MARKED',
+      qProgress: (qTotal ? ((s.qDone ? qTotal : s.qIndex) / qTotal) * 100 : 0) + '%',
+      qSubmitted: s.qSubmitted, qNotSubmitted: !s.qSubmitted, cantSubmitMcq: s.qSelected == null, submitBtnStyle: btn(s.qSelected != null),
+      submitMcq: () => { if (this.state.qSelected == null) return; const right = this.state.qSelected === q.correct; this.setState({ qSubmitted: true, qCorrect: this.state.qCorrect + (right ? 1 : 0), qWeak: right ? this.state.qWeak : this.state.qWeak.concat(q.q) }); },
+      qFbTitle: qRight ? 'Tama!' : 'Not quite.', qFbColor: qRight ? good : bad,
+      qNextLabel: s.qIndex + 1 >= qTotal ? 'Finish quiz' : 'Next question', nextQuestion: () => this.advanceQuiz(),
+      qShort: s.qShort, setQShort: (e) => this.setState({ qShort: e.target.value }), qShortShown: s.qShortShown, qSuggestedHidden: !s.qShortShown,
+      cantShowSuggested: s.qShort.trim().length < 4, suggestedBtnStyle: btn(s.qShort.trim().length >= 4), showSuggested: () => this.setState({ qShortShown: true }),
+      selfMarkCorrect: () => { this.setState({ qCorrect: this.state.qCorrect + 1 }); this.advanceQuiz(); },
+      selfMarkMissed: () => { this.setState({ qWeak: this.state.qWeak.concat(q.q) }); this.advanceQuiz(); },
+      qScoreLine: s.qCorrect + ' / ' + qTotal,
+
+      resetFirstRun: () => this.applyFirstRun(), resetActive: () => this.applyActive()
+    };
+  }
+}
+</script>
+</body>
+</html>
