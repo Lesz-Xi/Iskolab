@@ -1,0 +1,25 @@
+{
+  "name": "IskoLab",
+  "short_name": "IskoLab",
+  "description": "AI-assisted exam preparation from your own class material.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F6F8FC",
+  "theme_color": "#0E175A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/iskolab-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/iskolab-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
