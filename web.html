@@ -432,7 +432,6 @@ button { -webkit-tap-highlight-color: transparent; }
                   <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 50% 40%, rgba(126,156,255,0.14), transparent 36%), linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent); opacity: 0.9;"></div>
                   <div style="position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
                     <div style="font-family: 'JetBrains Mono', monospace; font-size: 8.8px; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(174,192,255,0.92);">Cognitive hologram</div>
-                    <div style="font-size: 9.5px; color: rgba(231,238,247,0.58);">interactive prototype</div>
                   </div>
                   <div style="position: relative; min-height: 420px; margin: 8px 0 4px; display: flex; align-items: center; justify-content: center;">
                     <canvas class="cog-brain-canvas" style="width: 100%; height: 440px;"></canvas>
@@ -589,21 +588,21 @@ class Component extends DCLogic {
     const field = canvas.closest('.cog-particle-field');
     field.querySelectorAll('.cog-node-panel').forEach(e => e.remove());
     const panel = document.createElement('div'); panel.className = 'cog-node-panel';
-    panel.style.cssText = 'position:absolute;right:12px;top:12px;width:212px;max-width:66%;padding:14px 15px;border-radius:14px;background:linear-gradient(160deg,rgba(16,28,86,0.94),rgba(8,14,46,0.94));border:0.5px solid rgba(126,156,255,0.42);box-shadow:0 22px 54px -22px rgba(0,0,0,0.75);backdrop-filter:blur(7px);color:#EAF0FF;opacity:0;transform:translateX(14px);pointer-events:none;transition:opacity .42s cubic-bezier(.16,1,.3,1),transform .42s cubic-bezier(.16,1,.3,1);z-index:6;font-family:inherit;';
+    panel.style.cssText = 'position:absolute;right:12px;top:12px;width:min(238px,calc(100% - 24px));padding:13px 14px 14px;border-radius:15px;background:linear-gradient(160deg,rgba(255,255,255,0.14),rgba(255,255,255,0.055)),rgba(5,8,31,0.38);border:0.5px solid rgba(255,255,255,0.18);box-shadow:0 18px 44px -28px rgba(0,0,0,0.72),inset 0 1px 0 rgba(255,255,255,0.13);backdrop-filter:blur(18px) saturate(1.18);-webkit-backdrop-filter:blur(18px) saturate(1.18);color:#EAF0FF;opacity:0;transform:translate3d(8px,-2px,0);pointer-events:none;transition:opacity .34s cubic-bezier(.16,1,.3,1),transform .34s cubic-bezier(.16,1,.3,1);z-index:6;font-family:inherit;';
     field.appendChild(panel);
     let selected = null;
     const renderPanel = (n) => {
-      if (!n) { panel.style.opacity = '0'; panel.style.transform = 'translateX(14px)'; panel.style.pointerEvents = 'none'; return; }
+      if (!n) { panel.style.opacity = '0'; panel.style.transform = 'translate3d(8px,-2px,0)'; panel.style.pointerEvents = 'none'; return; }
       const pct = Math.round(n.prog * 100);
-      panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;"><div style="font-family:JetBrains Mono,monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(174,192,255,0.9);">Node schematic</div><button class="cog-panel-x" style="border:none;background:transparent;color:rgba(231,238,247,0.6);font-size:15px;line-height:1;cursor:pointer;padding:0;">\u00d7</button></div>'
-        + '<div style="font-family:Newsreader,serif;font-size:16px;line-height:1.15;margin-top:6px;color:#fff;">' + n.label + '</div>'
-        + '<div style="font-size:9px;color:rgba(174,192,255,0.85);margin-top:3px;">' + n.region + '</div>'
-        + '<div style="height:2px;border-radius:9px;background:rgba(255,255,255,0.14);overflow:hidden;margin-top:11px;"><div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#7E9CFF,#2F6BE0);"></div></div>'
-        + '<div style="font-size:8.5px;color:rgba(231,238,247,0.55);margin-top:4px;">' + pct + '% mastered</div>'
-        + '<div style="display:flex;gap:6px;margin-top:10px;"><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:8px;padding:6px 7px;"><div style="font-size:11px;color:#EAF0FF;font-weight:600;">' + n.cards + '</div><div style="font-size:7.5px;color:rgba(231,238,247,0.5);">flashcards</div></div><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:8px;padding:6px 7px;"><div style="font-size:11px;color:#EAF0FF;font-weight:600;">' + n.quiz + '</div><div style="font-size:7.5px;color:rgba(231,238,247,0.5);">quiz</div></div><div style="flex:1;background:rgba(196,74,52,0.12);border-radius:8px;padding:6px 7px;"><div style="font-size:11px;color:#FF9A86;font-weight:600;">' + n.weak + '</div><div style="font-size:7.5px;color:rgba(231,238,247,0.5);">weak</div></div></div>'
-        + '<div style="font-family:JetBrains Mono,monospace;font-size:7.5px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(174,192,255,0.75);margin-top:12px;">History</div>'
-        + n.hist.map((h, i) => '<div style="display:flex;gap:7px;align-items:baseline;margin-top:6px;"><span style="width:4px;height:4px;border-radius:9px;flex-shrink:0;background:' + (i === 0 ? '#7E9CFF' : 'rgba(126,156,255,0.4)') + ';margin-top:1px;"></span><span style="font-size:9px;color:rgba(231,238,247,0.72);line-height:1.3;">' + h + '</span></div>').join('');
-      panel.style.opacity = '1'; panel.style.transform = 'translateX(0)'; panel.style.pointerEvents = 'auto';
+      panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;"><div style="font-family:JetBrains Mono,monospace;font-size:7.6px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(231,238,247,0.58);">Progress map</div><button class="cog-panel-x" aria-label="Close progress map" style="border:none;background:transparent;color:rgba(231,238,247,0.58);font-size:14px;line-height:1;cursor:pointer;padding:0 0 2px;">×</button></div>'
+        + '<div style="font-family:Newsreader,serif;font-size:17px;line-height:1.12;margin-top:7px;color:rgba(255,255,255,0.96);letter-spacing:-0.01em;">' + n.label + '</div>'
+        + '<div style="font-size:9px;color:rgba(174,192,255,0.78);margin-top:4px;line-height:1.35;">' + n.region + '</div>'
+        + '<div style="height:1px;border-radius:9px;background:rgba(255,255,255,0.13);overflow:hidden;margin-top:12px;"><div style="height:100%;width:' + pct + '%;background:rgba(255,255,255,0.92);box-shadow:0 0 10px rgba(255,255,255,0.55);"></div></div>'
+        + '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:5px;"><div style="font-size:8.5px;color:rgba(231,238,247,0.48);">prototype signal</div><div style="font-family:JetBrains Mono,monospace;font-size:8.6px;color:rgba(255,255,255,0.86);">' + pct + '%</div></div>'
+        + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.10);"><div><div style="font-size:11px;color:rgba(255,255,255,0.92);font-weight:650;">' + n.cards + '</div><div style="font-size:7.4px;color:rgba(231,238,247,0.42);margin-top:2px;">cards</div></div><div><div style="font-size:11px;color:rgba(255,255,255,0.92);font-weight:650;">' + n.quiz + '</div><div style="font-size:7.4px;color:rgba(231,238,247,0.42);margin-top:2px;">quiz</div></div><div><div style="font-size:11px;color:rgba(255,255,255,0.92);font-weight:650;">' + n.weak + '</div><div style="font-size:7.4px;color:rgba(231,238,247,0.42);margin-top:2px;">weak</div></div></div>'
+        + '<div style="font-family:JetBrains Mono,monospace;font-size:7.4px;letter-spacing:0.13em;text-transform:uppercase;color:rgba(231,238,247,0.46);margin-top:13px;">Trace</div>'
+        + n.hist.map((h, i) => '<div style="display:flex;gap:7px;align-items:baseline;margin-top:6px;"><span style="width:3px;height:3px;border-radius:9px;flex-shrink:0;background:' + (i === 0 ? 'rgba(255,255,255,0.9)' : 'rgba(174,192,255,0.38)') + ';margin-top:1px;"></span><span style="font-size:9px;color:rgba(231,238,247,0.66);line-height:1.34;">' + h + '</span></div>').join('');
+      panel.style.opacity = '1'; panel.style.transform = 'translate3d(0,0,0)'; panel.style.pointerEvents = 'auto';
       const x = panel.querySelector('.cog-panel-x'); if (x) x.onclick = (ev) => { ev.stopPropagation(); selected = null; renderPanel(null); };
     };
 
@@ -616,13 +615,16 @@ class Component extends DCLogic {
     let mcssx = -999, mcssy = -999, hovering = false, hoverEase = 0, hotNode = null;
     const F = 430;
     const project = (p) => { const ey = yaw + sway; const sy = Math.sin(ey), cy = Math.cos(ey), sx = Math.sin(pitch), cx = Math.cos(pitch); const px = p.x - CX, py = p.y - CY, pz = p.z || 0; const rx = px * cy + pz * sy; const rz = -px * sy + pz * cy; const ry = py * cx - rz * sx; const rz2 = py * sx + rz * cx; const scl = F / (F + rz2); return { x: CX + rx * scl, y: CY + ry * scl, scl }; };
+    const getViewTransform = () => { const scz = sc * zoom; return { scz, tx: ox + CX * sc - CX * scz, ty: oy + CY * sc - CY * scz }; };
+    const setPointerPos = (e) => { const rct = canvas.getBoundingClientRect(); mcssx = e.clientX - rct.left; mcssy = e.clientY - rct.top; };
+    const findNodeAt = (clientX, clientY) => { const rct = canvas.getBoundingClientRect(); const v = getViewTransform(); const mx = (clientX - rct.left - v.tx) / v.scz, my = (clientY - rct.top - v.ty) / v.scz; let best = null, bd = 18; NODES.forEach(n => { const pr = project(n); const hit = Math.max(10, 15 * pr.scl); const d = Math.hypot(mx - pr.x, my - pr.y); if (d < hit && d < bd) { bd = d; best = n; } }); return best; };
 
-    const onDown = (e) => { dragging = true; moved = false; lastX = e.clientX; lastY = e.clientY; canvas.style.cursor = 'grabbing'; try { canvas.setPointerCapture(e.pointerId); } catch (er) {} };
-    const onMove = (e) => { const rct = canvas.getBoundingClientRect(); mcssx = e.clientX - rct.left; mcssy = e.clientY - rct.top; if (dragging) { const dx = e.clientX - lastX, dy = e.clientY - lastY; if (Math.abs(dx) + Math.abs(dy) > 2) moved = true; yaw += dx * 0.008; pitch -= dy * 0.006; if (pitch < -0.05) pitch = -0.05; if (pitch > 1.15) pitch = 1.15; lastX = e.clientX; lastY = e.clientY; } else { hovering = true; } };
+    const onDown = (e) => { setPointerPos(e); dragging = true; moved = false; lastX = e.clientX; lastY = e.clientY; canvas.style.cursor = 'grabbing'; try { canvas.setPointerCapture(e.pointerId); } catch (er) {} };
+    const onMove = (e) => { setPointerPos(e); if (dragging) { const dx = e.clientX - lastX, dy = e.clientY - lastY; if (Math.abs(dx) + Math.abs(dy) > 2) moved = true; yaw += dx * 0.008; pitch -= dy * 0.006; if (pitch < -0.05) pitch = -0.05; if (pitch > 1.15) pitch = 1.15; lastX = e.clientX; lastY = e.clientY; } else { hovering = true; } };
     const onUp = () => { dragging = false; canvas.style.cursor = hotNode ? 'pointer' : 'grab'; };
     const onWheel = (e) => { if (e.ctrlKey || e.metaKey) { e.preventDefault(); zoomT *= (1 - e.deltaY * 0.0016); if (zoomT < 0.55) zoomT = 0.55; if (zoomT > 4) zoomT = 4; } };
     const onLeave = () => { hovering = false; mcssx = -999; mcssy = -999; if (!dragging) canvas.style.cursor = 'grab'; };
-    const onClick = () => { if (moved) return; if (hotNode) { selected = (selected && selected.id === hotNode.id) ? null : hotNode; renderPanel(selected); } };
+    const onClick = (e) => { if (moved) return; const target = findNodeAt(e.clientX, e.clientY) || hotNode; if (target) { selected = (selected && selected.id === target.id) ? null : target; renderPanel(selected); } };
     canvas.style.cursor = 'grab';
     canvas.addEventListener('pointerdown', onDown);
     canvas.addEventListener('pointermove', onMove, { passive: true });
@@ -643,7 +645,7 @@ class Component extends DCLogic {
       const focus = selected;
       // hot node detection
       hotNode = null;
-      if (!dragging && mcssx > -500) { const mx = (mcssx - tx) / scz, my = (mcssy - ty) / scz; let bd = 9; NODES.forEach(n => { const pr = project(n); const d = Math.hypot(mx - pr.x, my - pr.y); if (d < bd) { bd = d; hotNode = n; } }); if (canvas.style.cursor !== 'grabbing') canvas.style.cursor = hotNode ? 'pointer' : 'grab'; }
+      if (!dragging && mcssx > -500) { const mx = (mcssx - tx) / scz, my = (mcssy - ty) / scz; let bd = 18; NODES.forEach(n => { const pr = project(n); const hit = Math.max(10, 15 * pr.scl); const d = Math.hypot(mx - pr.x, my - pr.y); if (d < hit && d < bd) { bd = d; hotNode = n; } }); if (canvas.style.cursor !== 'grabbing') canvas.style.cursor = hotNode ? 'pointer' : 'grab'; }
       // particles (additive)
       ctx.globalCompositeOperation = 'lighter';
       for (const p of P) {
@@ -660,7 +662,7 @@ class Component extends DCLogic {
       }
       ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
       // node links
-      NLINKS.forEach(([a, b]) => { const na = nodeById(a), nb = nodeById(b); if (!na || !nb) return; const rel = focus && (focus.id === a || focus.id === b); const al = focus ? (rel ? 0.6 : 0.05) : 0.13; if (al <= 0.01) return; const pa = project(na), pb = project(nb); ctx.strokeStyle = 'rgba(126,156,255,' + al + ')'; ctx.lineWidth = (rel ? 1.1 : 0.5) / sc; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(pa.x, pa.y); ctx.lineTo(pb.x, pb.y); ctx.stroke(); });
+      NLINKS.forEach(([a, b]) => { const na = nodeById(a), nb = nodeById(b); if (!na || !nb) return; const rel = focus && (focus.id === a || focus.id === b); const al = focus ? (rel ? 0.82 : 0.14) : 0.32; if (al <= 0.01) return; const pa = project(na), pb = project(nb); ctx.strokeStyle = 'rgba(174,192,255,' + al + ')'; ctx.lineWidth = (rel ? 1.35 : 0.72) / sc; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(pa.x, pa.y); ctx.lineTo(pb.x, pb.y); ctx.stroke(); });
       // nodes (additive)
       ctx.globalCompositeOperation = 'lighter';
       NODES.forEach(n => { const pr = project(n); const isHot = hotNode && hotNode.id === n.id; const isSel = focus && focus.id === n.id; const isNbr = focus && !isSel && NLINKS.some(([a, b]) => (a === focus.id && b === n.id) || (b === focus.id && a === n.id)); const a = focus ? (isSel ? 1 : (isNbr ? 0.92 : 0.2)) : 0.92; const pulse = 0.78 + 0.22 * Math.sin(t * 0.002 + n.x); const rr = (isSel ? 4.8 : isHot ? 4.3 : 3.2) * pulse * pr.scl; ctx.globalAlpha = a; ctx.drawImage(isSel ? spViolet : spWhite, pr.x - rr, pr.y - rr, rr * 2, rr * 2); });
