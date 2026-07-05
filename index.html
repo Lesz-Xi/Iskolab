@@ -259,8 +259,8 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
         <a href="#faq" class="ln-nav">FAQ</a>
       </nav>
       <div class="nav-actions" style="display: flex; align-items: center; gap: 26px;">
-        <a href="IskoLab Web.dc.html" data-app-route="true" class="ln-nav">Sign in</a>
-        <a href="IskoLab Web.dc.html" data-app-route="true" class="min-cta">Open the app <span class="min-arrow">&rarr;</span></a>
+        <a href="web.html" data-app-route="true" class="ln-nav">Sign in</a>
+        <a href="web.html" data-app-route="true" class="min-cta">Open the app <span class="min-arrow">&rarr;</span></a>
       </div>
     </div>
   </header>
@@ -656,7 +656,7 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
           <h2 style="font-family: 'Newsreader', serif; font-weight: 300; font-size: clamp(2.2rem, 5.2vw, 4.4rem); line-height: 1.05; letter-spacing: -0.02em; margin: 20px auto 0; max-width: 820px; color: #F4F6FF;">Your exam has a date. <span style="font-style: italic; color: #AEC0FF;">Give your review one too.</span></h2>
           <p style="margin: 22px auto 0; max-width: 540px; color: #AAB4E8; font-size: 15px; line-height: 1.66;">Takes two minutes to set up. IskoLab handles the schedule &mdash; ikaw na ang bahala sa focus.</p>
           <div style="margin-top: 38px; display: flex; justify-content: center; flex-wrap: wrap; gap: clamp(22px, 4vw, 46px);">
-            <a href="IskoLab Web.dc.html" data-app-route="true" class="ln-btn" style="color: #F4F6FF; font-size: 14px;">Create your exam plan <span class="ln-arrow">&rarr;</span></a>
+            <a href="web.html" data-app-route="true" class="ln-btn" style="color: #F4F6FF; font-size: 14px;">Create your exam plan <span class="ln-arrow">&rarr;</span></a>
             <a href="#method" class="ln-btn" style="color: #AAB4E8; font-size: 14px;">See a study pack <span class="ln-arrow">&rarr;</span></a>
           </div>
         </div>
@@ -680,7 +680,7 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
       <a href="#vision" class="ln-nav">Vision</a>
       <a href="#loop" class="ln-nav">How it works</a>
       <a href="#faq" class="ln-nav">FAQ</a>
-      <a href="IskoLab Web.dc.html" data-app-route="true" class="ln-nav">Open app</a>
+      <a href="web.html" data-app-route="true" class="ln-nav">Open app</a>
     </nav>
   </footer>
 
@@ -703,7 +703,7 @@ class Component extends DCLogic {
       const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
       const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
       const narrowViewport = window.innerWidth <= 820;
-      return (standalone || coarsePointer || narrowViewport) ? 'IskoLab App.dc.html' : 'IskoLab Web.dc.html';
+      return (standalone || coarsePointer || narrowViewport) ? 'app.html' : 'web.html';
     };
     const syncAppRoutes = () => qa('[data-app-route="true"]').forEach((link) => { link.setAttribute('href', chooseAppTarget()); });
     syncAppRoutes();

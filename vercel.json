@@ -3,8 +3,8 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
-    { "source": "/web", "destination": "/IskoLab Web.dc.html" },
-    { "source": "/app", "destination": "/IskoLab App.dc.html" },
+    { "source": "/web", "destination": "/web.html" },
+    { "source": "/app", "destination": "/app.html" },
     { "source": "/landing", "destination": "/index.html" }
   ]
 }
