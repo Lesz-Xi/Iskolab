@@ -182,6 +182,8 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
   .nav-actions { gap: 18px !important; }
   .hero-section { padding-top: 28px !important; padding-bottom: 34px !important; }
   .hero-meta { width: 100% !important; justify-content: flex-end !important; align-items: flex-end !important; margin-bottom: 16px !important; }
+  .vision-report-grid { grid-template-columns: 1fr !important; }
+  .vision-aside { border-right: 0 !important; border-bottom: 1px solid rgba(255,255,255,0.12) !important; padding-right: 0 !important; padding-bottom: 28px !important; min-height: 0 !important; }
   .hero-preview { height: auto !important; min-height: 0 !important; aspect-ratio: auto !important; border-radius: 18px !important; }
   .hero-weave, .cta-band .weave { width: 24px !important; }
   .hero-weave::before, .cta-band .weave::before { inset: 16px 0 0 0; background-size: 16px 16px, 16px 16px; opacity: 0.70; }
@@ -205,6 +207,8 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
   .hero-section { padding-left: 16px !important; padding-right: 16px !important; }
   .hero-meta { display: flex !important; justify-content: flex-end !important; text-align: right !important; }
   .hero-meta > div:last-child { margin-top: 0; }
+  .vision-report-grid { grid-template-columns: 1fr !important; }
+  .vision-aside { border-right: 0 !important; border-bottom: 1px solid rgba(255,255,255,0.12) !important; padding-right: 0 !important; padding-bottom: 28px !important; min-height: 0 !important; }
   .hero-topbar { position: relative !important; left: auto !important; right: auto !important; flex-wrap: wrap !important; border-bottom: 1px solid rgba(255,255,255,0.1); }
   .hero-screen-body { padding-top: 0 !important; }
   .hero-panel-left, .hero-panel-right { padding-left: 22px !important; padding-right: 22px !important; }
@@ -228,6 +232,7 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
       <nav class="nav-links" style="display: flex; align-items: center; gap: clamp(20px, 3vw, 36px);">
         <a href="#loop" class="ln-nav">How it works</a>
         <a href="#features" class="ln-nav">Features</a>
+        <a href="#vision" class="ln-nav">Vision</a>
         <a href="#method" class="ln-nav">Study pack</a>
         <a href="#faq" class="ln-nav">FAQ</a>
       </nav>
@@ -316,6 +321,71 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
             </div>
             <div style="height: 1px; background: linear-gradient(90deg, rgb(14, 23, 90), transparent); width: 54px;"></div>
           </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════ VISION — research report thesis ══════════ -->
+    <section id="vision" style="position: relative; padding: clamp(72px, 9vw, 150px) clamp(22px, 5vw, 56px); border-top: 1px solid rgba(14,38,71,0.08);">
+      <div style="width: min(100%, 1220px); margin: 0 auto;">
+        <div style="display: grid; grid-template-columns: 3fr 9fr; gap: clamp(28px, 5vw, 72px); align-items: start; margin-bottom: clamp(32px, 4.6vw, 64px);">
+          <div data-rv>
+            <div style="display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgb(14, 23, 90);"><span style="width: 16px; height: 1px; background: rgb(14, 23, 90); display: block;"></span>Vision report</div>
+          </div>
+          <div>
+            <h2 class="disp" style="font-family: 'Newsreader', serif; font-weight: 300; font-size: clamp(2rem, 4.8vw, 4.2rem); line-height: 1.0; letter-spacing: -0.02em; margin: 0; color: #0E2647;">
+              <span class="lnw"><span class="ln-line">Explanation is becoming abundant.</span></span>
+              <span class="lnw"><span class="ln-line" style="font-style: italic; color: rgb(14, 23, 90); text-shadow: 0 16px 44px rgba(14,23,90,0.14);">Direction is still human.</span></span>
+            </h2>
+            <p data-rv data-delay="120" style="margin: 22px 0 0; max-width: 680px; color: #566178; font-size: 15px; line-height: 1.72;">Naval and Garry Tan point toward a world where AI can explain, generate, remember, and coordinate more than any student could hold alone. IskoLab turns that abundance into a calm study instrument: your materials, your deadline, your weak spots, your language, organized into the next honest action.</p>
+          </div>
+        </div>
+
+        <div data-rv-scale>
+          <div class="q-card" style="position: relative; overflow: hidden; border-radius: 24px; background: linear-gradient(150deg, rgb(14, 23, 90), rgb(14, 23, 90)); border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 54px 116px -56px rgba(14,23,90,0.72);">
+            <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(56% 72% at 78% 0%, rgba(126,156,255,0.28), transparent 64%), radial-gradient(42% 64% at 0% 74%, rgba(243,229,184,0.10), transparent 66%), linear-gradient(90deg, rgba(255,255,255,0.035), transparent 36%);"></div>
+            <div class="weave" style="position: absolute; left: 0; top: 0; bottom: 0; width: 40px; opacity: 0.28;"></div>
+            <div class="vision-report-grid" style="position: relative; z-index: 2; padding: clamp(28px, 5vw, 64px); display: grid; grid-template-columns: 0.9fr 1.35fr; gap: clamp(26px, 5vw, 72px);">
+              <aside class="vision-aside" style="border-right: 1px solid rgba(255,255,255,0.12); padding-right: clamp(22px, 4vw, 48px); display: flex; flex-direction: column; justify-content: space-between; min-height: 420px;">
+                <div>
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #8FA2FF;">Research note &middot; present</div>
+                  <h3 style="font-family: 'Newsreader', serif; font-weight: 300; font-size: clamp(32px, 4.8vw, 62px); line-height: 0.96; letter-spacing: -0.02em; color: #fff; margin: 18px 0 0;">What remains scarce?</h3>
+                </div>
+                <p style="margin: 26px 0 0; color: #AAB4E8; font-size: 14px; line-height: 1.72; max-width: 36ch;">Not answers. Not generated summaries. The scarce thing is care, judgment, and a study path that knows what today is for.</p>
+                <div style="margin-top: 34px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #F3E5B8;">IskoLab thesis / learning context engine</div>
+              </aside>
+
+              <div style="display: flex; flex-direction: column; justify-content: center; gap: 18px;">
+                <div style="display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px;">
+                  <article style="border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 22px; background: rgba(255,255,255,0.035);">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8FA2FF;">Finding 01</span>
+                    <h4 style="font-family: 'Newsreader', serif; font-size: clamp(22px, 2.4vw, 31px); font-weight: 400; line-height: 1.08; color: #fff; margin: 14px 0 8px;">Inference gets cheaper.</h4>
+                    <p style="margin: 0; color: #AAB4E8; font-size: 13px; line-height: 1.62;">Studying should become more personal, not more noisy.</p>
+                  </article>
+                  <article style="border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 22px; background: rgba(255,255,255,0.035);">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8FA2FF;">Finding 02</span>
+                    <h4 style="font-family: 'Newsreader', serif; font-size: clamp(22px, 2.4vw, 31px); font-weight: 400; line-height: 1.08; color: #fff; margin: 14px 0 8px;">Context gets larger.</h4>
+                    <p style="margin: 0; color: #AAB4E8; font-size: 13px; line-height: 1.62;">Your modules, notes, deadlines, and weak spots become one workspace.</p>
+                  </article>
+                  <article style="border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 22px; background: rgba(255,255,255,0.035);">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8FA2FF;">Finding 03</span>
+                    <h4 style="font-family: 'Newsreader', serif; font-size: clamp(22px, 2.4vw, 31px); font-weight: 400; line-height: 1.08; color: #fff; margin: 14px 0 8px;">Agents collaborate.</h4>
+                    <p style="margin: 0; color: #AAB4E8; font-size: 13px; line-height: 1.62;">The student still steers with desire, taste, and judgment.</p>
+                  </article>
+                  <article style="border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 22px; background: rgba(255,255,255,0.035);">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8FA2FF;">Finding 04</span>
+                    <h4 style="font-family: 'Newsreader', serif; font-size: clamp(22px, 2.4vw, 31px); font-weight: 400; line-height: 1.08; color: #fff; margin: 14px 0 8px;">Software gets easier.</h4>
+                    <p style="margin: 0; color: #AAB4E8; font-size: 13px; line-height: 1.62;">The real product is the learning loop, not the feature list.</p>
+                  </article>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); flex-wrap: wrap;">
+                  <p style="margin: 0; color: #DCE4FF; font-size: 14px; line-height: 1.66; max-width: 620px;">We are building for the student who does not just want answers &mdash; they want understanding to stay.</p>
+                  <a href="#method" class="ln-btn" style="color: #F4F6FF; font-size: 13px;">See the study loop <span class="ln-arrow">&rarr;</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -583,6 +653,7 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
       <a href="#product" class="ln-nav">Why</a>
       <a href="#method" class="ln-nav">Study pack</a>
       <a href="#features" class="ln-nav">Features</a>
+      <a href="#vision" class="ln-nav">Vision</a>
       <a href="#loop" class="ln-nav">How it works</a>
       <a href="#faq" class="ln-nav">FAQ</a>
       <a href="IskoLab Web.dc.html" data-app-route="true" class="ln-nav">Open app</a>
