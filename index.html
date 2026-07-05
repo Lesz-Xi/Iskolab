@@ -709,11 +709,12 @@ class Component extends DCLogic {
     syncAppRoutes();
     window.addEventListener('resize', syncAppRoutes, { passive: true });
 
-    // expensive scroll scrub reveal — reversible, works scrolling down/up repeatedly
+    // expensive scroll scrub reveal — reversible, with render smoothing for mouse-wheel steps
     const scrubEls = qa('[data-rv]').concat(qa('[data-rv-scale]'));
     const scrubHeads = qa('.disp');
     const clamp01 = (n) => Math.min(Math.max(n, 0), 1);
     const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+    const lerp = (a, b, t) => a + (b - a) * t;
     scrubEls.forEach((el) => el.classList.add(el.hasAttribute('data-rv-scale') ? 'rv-scale' : 'rv'));
     const setFinalReveal = () => {
       scrubEls.forEach((el) => {
@@ -724,48 +725,68 @@ class Component extends DCLogic {
       });
       qa('.ln-line').forEach((line) => line.style.setProperty('--ln-y', '0%'));
     };
-    const updateScrub = () => {
+    const scrubState = new WeakMap();
+    const lineState = new WeakMap();
+    const setScrubVars = (el, p, narrow) => {
+      const scaleBase = el.hasAttribute('data-rv-scale') ? 0.965 : 1;
+      const yBase = el.hasAttribute('data-rv-scale') ? (narrow ? 34 : 46) : (narrow ? 26 : 38);
+      const blurBase = narrow ? 4 : 8;
+      el.style.setProperty('--scrub-o', p.toFixed(3));
+      el.style.setProperty('--scrub-y', ((1 - p) * yBase).toFixed(2) + 'px');
+      el.style.setProperty('--scrub-scale', (scaleBase + (1 - scaleBase) * p).toFixed(4));
+      el.style.setProperty('--scrub-blur', ((1 - p) * blurBase).toFixed(2) + 'px');
+    };
+    const updateScrub = (immediate = false) => {
       const vh = window.innerHeight || 1;
       const narrow = window.innerWidth <= 760;
       const center = narrow ? vh * 0.56 : vh * 0.54;
       const range = narrow ? vh * 0.76 : vh * 0.68;
+      const follow = immediate ? 1 : (narrow ? 0.34 : 0.28);
+      let keepAnimating = false;
       scrubEls.forEach((el) => {
         const r = el.getBoundingClientRect();
         const delay = parseInt(el.getAttribute('data-delay') || '0', 10) * 0.18;
         const elCenter = r.top + r.height * 0.45 + delay;
         const distance = Math.abs(elCenter - center);
         const raw = clamp01(1 - (distance / range));
-        const p = easeOut(raw);
-        const scaleBase = el.hasAttribute('data-rv-scale') ? 0.965 : 1;
-        const yBase = el.hasAttribute('data-rv-scale') ? (narrow ? 34 : 46) : (narrow ? 26 : 38);
-        const blurBase = narrow ? 4 : 8;
-        el.style.setProperty('--scrub-o', p.toFixed(3));
-        el.style.setProperty('--scrub-y', ((1 - p) * yBase).toFixed(2) + 'px');
-        el.style.setProperty('--scrub-scale', (scaleBase + (1 - scaleBase) * p).toFixed(4));
-        el.style.setProperty('--scrub-blur', ((1 - p) * blurBase).toFixed(2) + 'px');
+        const target = easeOut(raw);
+        const prev = scrubState.has(el) ? scrubState.get(el) : target;
+        const p = immediate ? target : lerp(prev, target, follow);
+        scrubState.set(el, p);
+        setScrubVars(el, p, narrow);
+        if (Math.abs(target - p) > 0.003) keepAnimating = true;
       });
       scrubHeads.forEach((h) => {
         const r = h.getBoundingClientRect();
         const base = clamp01(1 - Math.abs((r.top + r.height * 0.46) - center) / (range * 0.9));
         h.querySelectorAll('.ln-line').forEach((line, i) => {
-          const p = easeOut(clamp01((base - i * 0.08) / 0.92));
+          const target = easeOut(clamp01((base - i * 0.08) / 0.92));
+          const prev = lineState.has(line) ? lineState.get(line) : target;
+          const p = immediate ? target : lerp(prev, target, follow);
+          lineState.set(line, p);
           line.style.setProperty('--ln-y', ((1 - p) * 118).toFixed(2) + '%');
+          if (Math.abs(target - p) > 0.003) keepAnimating = true;
         });
       });
+      return keepAnimating;
     };
     if (reduced) {
       setFinalReveal();
     } else {
-      let scrubTicking = false;
-      const scheduleScrub = () => {
-        if (!scrubTicking) {
-          scrubTicking = true;
-          requestAnimationFrame(() => { scrubTicking = false; updateScrub(); });
+      let scrubRaf = 0;
+      const runScrub = (immediate = false) => {
+        scrubRaf = 0;
+        if (updateScrub(immediate)) {
+          scrubRaf = requestAnimationFrame(() => runScrub(false));
         }
       };
-      window.addEventListener('scroll', scheduleScrub, { passive: true });
-      window.addEventListener('resize', scheduleScrub, { passive: true });
-      updateScrub();
+      const scheduleScrub = (immediate = false) => {
+        if (!scrubRaf) scrubRaf = requestAnimationFrame(() => runScrub(immediate));
+      };
+      window.addEventListener('scroll', () => scheduleScrub(false), { passive: true });
+      window.addEventListener('wheel', () => scheduleScrub(false), { passive: true });
+      window.addEventListener('resize', () => scheduleScrub(true), { passive: true });
+      updateScrub(true);
     }
 
     // spotlight cards (why + carousel)
