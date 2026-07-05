@@ -36,7 +36,7 @@ A high-production product landing page with:
 
 - cinematic hero preview
 - deep-blue IskoLab visual language
-- report-style Vision section
+- text-based Vision thesis
 - study-pack product explanation
 - scroll-driven feature carousel
 - minimal FAQ reveal system
@@ -85,15 +85,15 @@ A mobile-first shell designed for phone-browser or Add-to-Home-Screen usage.
 
 ## Vision
 
-IskoLab is not meant to be just another AI wrapper.
+IskoLab is not just another AI wrapper. It is a learning instrument for a world where AI can explain, remember, and coordinate beyond what one student can hold.
 
-The deeper direction is a learning context engine: a calm instrument that remembers the student’s materials, deadline, weak spots, language preference, and daily practice history.
+[Source ↗](https://youtu.be/6m-ZZBCiiEE?si=fpaGqSPfzATNI-OT)
 
-In a future where AI can explain almost anything, IskoLab asks a more grounded question:
+> Explanation is becoming abundant. Direction is still human.
 
-> What is the next honest learning action for this student, today?
+IskoLab turns that abundance into one calm next action — grounded in the student’s materials, deadline, weak spots, and language.
 
-That is the product center.
+We are building for students who do not just want answers. They want understanding to stay.
 
 ---
 
