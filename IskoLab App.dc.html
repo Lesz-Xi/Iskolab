@@ -718,7 +718,7 @@ class Component extends DCLogic {
     if (!ctx) return () => {};
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const VBW = 300, VBH = 260, CX = 150, CY = 140, TMAX = 68;
-    const D = 'M64 120 C60 98 74 82 96 76 C120 58 150 56 178 66 C206 58 232 74 246 100 C256 118 256 140 248 158 C242 174 232 186 216 194 C204 200 194 196 190 186 C188 202 182 214 172 214 C163 214 160 200 163 188 C150 190 142 184 134 190 C122 200 104 198 92 188 C78 180 66 164 62 146 C58 136 60 128 64 120 Z';
+    const D = 'M54 126 C49 103 63 83 88 72 C105 55 132 49 157 58 C174 48 205 55 226 73 C248 83 263 105 265 130 C270 154 258 176 235 188 C222 200 202 202 190 190 C185 207 171 221 156 214 C144 208 145 191 154 179 C139 184 126 178 116 188 C101 200 77 192 64 171 C53 161 48 141 54 126 Z';
     const silhouette = new Path2D(D);
     const mask = document.createElement('canvas'); mask.width = VBW; mask.height = VBH;
     const mc = mask.getContext('2d'); mc.fillStyle = '#fff'; mc.fill(silhouette);
@@ -738,7 +738,7 @@ class Component extends DCLogic {
     const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('width', '0'); svg.setAttribute('height', '0'); svg.style.cssText = 'position:absolute;left:-9999px;top:-9999px;';
     const pel = document.createElementNS(NS, 'path'); pel.setAttribute('d', D); svg.appendChild(pel); document.body.appendChild(svg);
     let total = 1200; try { total = pel.getTotalLength() || 1200; } catch (e) {}
-    const foldDefs = ['M96 150 C124 140 158 138 192 143 C210 146 226 140 236 132', 'M150 74 C146 100 140 124 138 152', 'M104 100 C128 94 150 98 172 106', 'M190 84 C200 110 200 136 194 160', 'M112 172 C138 180 164 182 190 172', 'M120 126 C142 120 164 122 184 130'];
+    const foldDefs = ['M72 124 C90 104 118 99 145 110 C166 119 188 111 216 98', 'M82 92 C106 76 136 72 164 84 C185 94 204 88 226 82', 'M68 150 C92 164 120 158 142 141 C160 130 181 135 206 148', 'M150 62 C144 86 144 112 152 136 C160 160 156 184 144 207', 'M192 77 C205 101 204 128 194 155 C188 171 195 184 216 187', 'M96 174 C119 188 145 184 166 169 C182 158 204 161 228 172', 'M116 116 C132 96 156 96 174 114 C188 130 207 126 232 118', 'M104 74 C118 95 111 116 92 132 C80 142 77 157 86 174'];
     const foldPaths = foldDefs.map(d => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); svg.appendChild(p); let L = 100; try { L = p.getTotalLength() || 100; } catch (e) {} return { p, L }; });
 
     const makeSprite = (inner, outer) => { const c = document.createElement('canvas'); c.width = c.height = 24; const g = c.getContext('2d'); const rg = g.createRadialGradient(12, 12, 0, 12, 12, 12); rg.addColorStop(0, inner); rg.addColorStop(0.45, outer); rg.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = rg; g.fillRect(0, 0, 24, 24); return c; };
